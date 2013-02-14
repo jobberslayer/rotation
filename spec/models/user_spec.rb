@@ -2,13 +2,13 @@ require 'spec_helper'
 
 describe User do
   let(:user) { User.new(
-        fname: "Me", 
-        lname: "Thisguy", 
-        uname: "me", 
-        email:"me@example.com",
-        password: "foobar", 
-        password_confirmation: "foobar"
-    ) }
+      fname: "Me", 
+      lname: "Thisguy", 
+      uname: "me", 
+      email:"me@example.com",
+      password: "foobar", 
+      password_confirmation: "foobar"
+  ) }
 
   subject {user}
 
