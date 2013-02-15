@@ -1,6 +1,9 @@
 Rotation::Application.routes.draw do
+  get "news/index"
+
   resources :sessions, only: [:new, :create, :destroy]
 
+  root to: 'news#index'
   match '/signin', to: 'sessions#new'
   match '/signout', to: 'sessions#destroy', via: :delete
 
