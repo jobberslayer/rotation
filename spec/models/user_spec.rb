@@ -2,9 +2,9 @@ require 'spec_helper'
 
 describe User do
   let(:user) { User.new(
-      fname: "Me", 
-      lname: "Thisguy", 
-      uname: "me", 
+      first_name: "Me", 
+      last_name: "Thisguy", 
+      user_name: "me", 
       email:"me@example.com",
       password: "foobar", 
       password_confirmation: "foobar"
@@ -12,9 +12,9 @@ describe User do
 
   subject {user}
 
-  it { should respond_to(:fname) }
-  it { should respond_to(:lname) }
-  it { should respond_to(:uname) }
+  it { should respond_to(:first_name) }
+  it { should respond_to(:last_name) }
+  it { should respond_to(:user_name) }
   it { should respond_to(:email) }
   it { should respond_to(:password_digest) }
   it { should respond_to(:password) }
@@ -30,15 +30,15 @@ describe User do
   end
 
   describe "when fname is not present" do
-    before {user.fname = " " }
+    before {user.first_name = " " }
     it {should_not be_valid}
   end
   describe "when lname is not present" do
-    before {user.lname = " "}
+    before {user.last_name = " "}
     it {should_not be_valid}
   end
-  describe "when uname is not present" do
-    before {user.uname = " "}
+  describe "when user_name is not present" do
+    before {user.user_name = " "}
     it {should_not be_valid}
   end
   describe "when email is not present" do
@@ -47,15 +47,15 @@ describe User do
   end
 
   describe "when fname is too long" do
-    before {user.fname = "a"*51}
+    before {user.first_name = "a"*51}
     it {should_not be_valid}
   end
   describe "when lname is too long" do
-    before {user.lname = "a"*51}
+    before {user.last_name = "a"*51}
     it {should_not be_valid}
   end
-  describe "when uname is too long" do
-    before {user.uname = "a"*51}
+  describe "when user_name is too long" do
+    before {user.user_name = "a"*51}
     it {should_not be_valid}
   end
   describe "when email is too long" do
@@ -82,11 +82,11 @@ describe User do
     end
   end
 
-  describe "when user with same uname" do
+  describe "when user with same user_name" do
     before do
-      user_with_same_uname = user.dup
-      user_with_same_uname.uname = user.uname.upcase
-      user_with_same_uname.save
+      user_with_same_user_name = user.dup
+      user_with_same_user_name.user_name = user.user_name.upcase
+      user_with_same_user_name.save
     end
 
     it { should_not be_valid }
@@ -103,14 +103,14 @@ describe User do
       user.email.should eq user.email.downcase
     end
   end
-  describe "when uname contains uppercase" do
+  describe "when user_name contains uppercase" do
     before do
-      user.uname = "Me"
+      user.user_name = "Me"
       user.save      
     end
 
-    it "should downcase uname" do
-      user.uname.should eq user.uname.downcase
+    it "should downcase user_name" do
+      user.user_name.should eq user.user_name.downcase
     end
   end
 

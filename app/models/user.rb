@@ -1,20 +1,20 @@
 class User < ActiveRecord::Base
-  attr_accessible :email, :fname, :lname, :uname, :password, :password_confirmation
+  attr_accessible :email, :first_name, :last_name, :user_name, :password, :password_confirmation
   has_secure_password
 
   before_save { |user| user.email = email.downcase }
-  before_save { |user| user.uname = uname.downcase }
+  before_save { |user| user.user_name = user_name.downcase }
   before_save :create_remember_token
 
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
 
-  validates :fname, 
+  validates :first_name, 
         presence: true, 
         length: {maximum: 50}
-  validates :lname, 
+  validates :last_name, 
         presence: true, 
         length: {maximum: 50}
-  validates :uname, 
+  validates :user_name, 
         presence: true, 
         length: {maximum: 50},
         uniqueness: { case_sensitive: false }

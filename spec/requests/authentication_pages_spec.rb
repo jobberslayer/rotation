@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "AuthenticationPages" do
+describe "Authentication" do
 
   subject { page }
 
@@ -9,7 +9,7 @@ describe "AuthenticationPages" do
 
     it { should have_selector 'h1',    text: 'Sign in'}
     it { should have_selector 'title', text: 'Sign in'}
-    it { should have_css '#session_uname', text: '' }
+    it { should have_css '#session_user_name', text: '' }
     it { should have_css '#session_password', text: '' }
 
     describe "with invalid info" do 
@@ -24,6 +24,13 @@ describe "AuthenticationPages" do
 
         it {should_not have_selector 'div.alert.alert-error'}
       end
+    end
+
+    describe "with valid info" do
+      let(:user) { FactoryGirl.create(:user) }
+      before { valid_signin user}
+      
+      it { should have_selector 'h1', text: 'News'}
     end
   end
 end
