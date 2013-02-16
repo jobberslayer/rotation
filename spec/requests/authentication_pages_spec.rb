@@ -32,5 +32,13 @@ describe "Authentication" do
       
       it { should have_selector 'h1', text: 'News'}
     end
+
+    describe "already signed in" do
+      let(:user) { FactoryGirl.create(:user) }
+      before { valid_signin user}
+      before { visit signin_path }
+      it { should have_selector 'h1', text: 'News'}
+      it { should have_selector 'div.alert.alert-notice', text: 'Already signed in.'}
+    end
   end
 end
