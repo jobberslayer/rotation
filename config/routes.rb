@@ -1,11 +1,12 @@
 Rotation::Application.routes.draw do
 
   resources :sessions, only: [:new, :create, :destroy]
-  resources :users, only: [:edit]
+  resources :users, only: [:edit, :update]
 
   root to: 'news#index'
   match '/signin', to: 'sessions#new'
   match '/signout', to: 'sessions#destroy', via: :delete
+  match '/profile/:id', to: 'users#edit'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
