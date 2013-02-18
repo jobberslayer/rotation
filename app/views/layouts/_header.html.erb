@@ -1,14 +1,13 @@
 <header class="navbar navbar-fixed-top navbar-inverse">
   <div class="navbar-inner">
     <div class="container">
-      <%= link_to "Franklin Street Rotation", '#', id: "logo" %>
+      <%= link_to "Franklin Street Rotation", '/', id: "logo" %>
       <nav>
         <ul class="nav pull-right">
-          <li><%= link_to "Home",    '#' %></li>
-          <li><%= link_to "Help",    '#' %></li>
+          <li><%= link_to "Home",    '/' %></li>          
           <% if signed_in? %>
-            <li>
-              <%= link_to "Sign out", signout_path, method: "delete" %>
+            <li><%= link_to "Profile", "/profile" %>
+            <li><%= link_to "Sign out | (#{@current_user.user_name})", signout_path, method: "delete" %>
             </li>
           <% else %>
             <li><%= link_to "Sign in", '/signin' %></li>

@@ -39,6 +39,7 @@ describe "Authentication" do
       before { visit signin_path }
       it { should have_selector 'h1', text: 'News'}
       it { should have_selector 'div.alert.alert-notice', text: 'Already signed in.'}
+      it { should have_selector 'a', text: 'Profile'}
     end
 
     describe "sign out" do
@@ -47,6 +48,7 @@ describe "Authentication" do
       before { visit signin_path }
       before {click_link "Sign out"}
       it { should have_selector 'div.alert.alert-notice', text: 'Please sign in.'}
+      it { should_not have_selector 'a', text: 'Profile'}
     end
   end
 end

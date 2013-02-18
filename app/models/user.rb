@@ -28,6 +28,15 @@ class User < ActiveRecord::Base
   validates :password_confirmation, 
         presence: true
 
+  def full_name
+    [first_name, last_name].join(' ')
+  end
+
+  def full_name=(name)
+    self.last_name = name.split(' ').last
+    self.first_name = name.split(' ')[0..-2].join(' ')
+  end
+
   private
 
     def create_remember_token

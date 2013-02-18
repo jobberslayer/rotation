@@ -142,4 +142,44 @@ describe User do
       specify { user_for_invalid_password.should be_false }
     end
   end
+
+  describe "when full_name attribute is used to save" do
+    # if only one word name assumes it is the last name
+    describe "with 1 word name" do
+      before do
+        user.full_name = "Last"
+        user.save
+      end
+
+      it {user.first_name.should eq ''}
+      it {user.last_name.should eq 'Last'}
+    end
+    describe "with 2 word name" do
+      before do
+        user.full_name = "First Last"
+        user.save
+      end
+
+      it {user.first_name.should eq 'First'}
+      it {user.last_name.should eq 'Last'}
+    end
+    describe "with 3 word name" do
+      before do
+        user.full_name = "First Middle Last"
+        user.save
+      end
+
+      it {user.first_name.should eq 'First Middle'}
+      it {user.last_name.should eq 'Last'}
+    end
+    describe "with 4 word name" do
+      before do
+        user.full_name = "First Middle Extra Last"
+        user.save
+      end
+
+      it {user.first_name.should eq 'First Middle Extra'}
+      it {user.last_name.should eq 'Last'}
+    end
+  end
 end
