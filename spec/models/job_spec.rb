@@ -1,10 +1,7 @@
 require 'spec_helper'
 
 describe Job do
-  let(:job) { Job.new(
-    name: "Greeters", 
-    email:"greeters@example.com"
-  )}
+  let(:job) { FactoryGirl.create(:job) }
 
   subject {job}
 
@@ -49,5 +46,13 @@ describe Job do
     it "should downcase email" do 
       job.email.should eq job.email.downcase
     end
+  end
+
+  describe "added volunteer" do
+    let(:vol) { FactoryGirl.create(:volunteer) }
+
+    before { job.volunteered!(vol) }
+
+    it { should be_volunteered(vol) }
   end
 end

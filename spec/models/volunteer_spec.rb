@@ -1,11 +1,7 @@
 require 'spec_helper'
 
 describe Volunteer do
-  let(:vol) { Volunteer.new(
-    first_name: "Joe", 
-    last_name: "Volunteer",
-    email:"joe_vol@example.com"
-  )}
+  let(:vol) { FactoryGirl.create(:volunteer) }
 
   subject {vol}
 
@@ -13,6 +9,7 @@ describe Volunteer do
   it {should respond_to :last_name}
   it {should respond_to :email}
   it {should respond_to :full_name}
+  it { should respond_to(:vol_job_relationships) }
 
   it {should be_valid}
 
@@ -109,6 +106,14 @@ describe Volunteer do
       it {vol.first_name.should eq 'First Middle Extra'}
       it {vol.last_name.should eq 'Last'}
     end
+  end
+
+  describe "signed up for job" do
+    let(:job) { FactoryGirl.create(:job) }
+
+    before { vol.on_job!(job) }
+
+    it { should be_on_job(job) }
   end
 
 end

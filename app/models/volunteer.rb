@@ -3,6 +3,9 @@ class Volunteer < ActiveRecord::Base
 
   before_save { |vol| vol.email = email.downcase }
 
+  has_many :vol_job_relationships, foreign_key: "volunteer_id", dependent: :destroy
+  has_many :jobs, through: :vol_job_relationships, source: :job
+
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
 
   validates :first_name, 
@@ -23,6 +26,14 @@ class Volunteer < ActiveRecord::Base
   def full_name=(name)
     self.last_name = name.split(' ').last
     self.first_name = name.split(' ')[0..-2].join(' ')
+  end
+
+  def on_job!(job)
+    vol_job_relationships.create!(job_id: job.id)
+  end
+
+  def on_job?(job)
+    vol_job_relationships.find_by_job_id(job.id)
   end
 
 end
