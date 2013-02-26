@@ -7,8 +7,19 @@ describe Group do
 
   it {should respond_to :name}
   it {should respond_to :email}
+  it {should respond_to :rotation}
+  it {should_not be_rotation}
 
   it {should be_valid}
+
+  describe "when rotation set to true" do
+    before do
+      group.save!
+      group.toggle!(:rotation)
+    end
+
+    it {should be_rotation}
+  end
 
   describe "when first_name is not present" do
     before {group.name = " " }
@@ -47,6 +58,8 @@ describe Group do
       group.email.should eq group.email.downcase
     end
   end
+
+  describe ""
 
   describe "added volunteer" do
     let(:vol) { FactoryGirl.create(:volunteer) }
