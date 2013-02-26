@@ -13,7 +13,7 @@ describe VolJobRelationship do
     it "should not allow access to volunteer_id" do
       expect do
         VolJobRelationship.new(volunteer_id: vol.id)
-      end.to raise_error(ActiveModel:MassAssignmentSecurity::Error)
+      end.to raise_error(ActiveModel::MassAssignmentSecurity::Error)
     end
   end
 
