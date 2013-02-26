@@ -1,6 +1,6 @@
-class VolJobRelationship < ActiveRecord::Base
-  attr_accessible :job_id, :volunteer_id
+class VolGroupRelationship < ActiveRecord::Base
+  attr_accessible :group_id, :volunteer_id
 
   belongs_to :volunteer, class_name: "Volunteer"
-  belongs_to :job,       class_name: "Job"
+  belongs_to :group,     class_name: "Group"
 end

@@ -14,7 +14,7 @@ FactoryGirl.define do
     email       "joe_vol@example.com"
   end
 
-  factory :job do
+  factory :group do
     name   "Greeters" 
     email  "greeters@example.com"
   end

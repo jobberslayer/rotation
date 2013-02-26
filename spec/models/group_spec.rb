@@ -1,9 +1,9 @@
 require 'spec_helper'
 
-describe Job do
-  let(:job) { FactoryGirl.create(:job) }
+describe Group do
+  let(:group) { FactoryGirl.create(:group) }
 
-  subject {job}
+  subject {group}
 
   it {should respond_to :name}
   it {should respond_to :email}
@@ -11,12 +11,12 @@ describe Job do
   it {should be_valid}
 
   describe "when first_name is not present" do
-    before {job.name = " " }
+    before {group.name = " " }
     it {should_not be_valid}
   end
 
   describe "when email is not present" do
-    before {job.email = " "}
+    before {group.email = " "}
     it {should_not be_valid}
   end
 
@@ -24,35 +24,35 @@ describe Job do
     it "should be valid" do
       addresses = %w[me@example.com test@a.b.c.org me+thisguy@example.tv]
       addresses.each do |address|
-        job.email = address
-        job.should be_valid
+        group.email = address
+        group.should be_valid
       end
     end
   end
   describe "when email format is invalid" do
     it "should be invalid" do
-      addresses = %w[me@example,com test@a.b.c. job@bad+address.tv]
+      addresses = %w[me@example,com test@a.b.c. group@bad+address.tv]
       addresses.each do |address|
-        job.email = address
-        job.should_not be_valid
+        group.email = address
+        group.should_not be_valid
       end
     end
   end
   describe "when email contains uppercase" do
     before do
-      job.email = "Me@Example.com"
-      job.save      
+      group.email = "Me@Example.com"
+      group.save      
     end
     it "should downcase email" do 
-      job.email.should eq job.email.downcase
+      group.email.should eq group.email.downcase
     end
   end
 
   describe "added volunteer" do
     let(:vol) { FactoryGirl.create(:volunteer) }
 
-    before { job.volunteered!(vol) }
+    before { group.signed_up!(vol) }
 
-    it { should be_volunteered(vol) }
+    it { should be_signed_up(vol) }
   end
 end

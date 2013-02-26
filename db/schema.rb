@@ -11,9 +11,9 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130219180415) do
+ActiveRecord::Schema.define(:version => 20130226193745) do
 
-  create_table "jobs", :force => true do |t|
+  create_table "groups", :force => true do |t|
     t.string   "name"
     t.string   "email"
     t.datetime "created_at", :null => false
@@ -34,16 +34,16 @@ ActiveRecord::Schema.define(:version => 20130219180415) do
   add_index "users", ["remember_token"], :name => "index_users_on_remember_token"
   add_index "users", ["user_name"], :name => "index_users_on_uname", :unique => true
 
-  create_table "vol_job_relationships", :force => true do |t|
+  create_table "vol_group_relationships", :force => true do |t|
     t.integer  "volunteer_id"
-    t.integer  "job_id"
+    t.integer  "group_id"
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
   end
 
-  add_index "vol_job_relationships", ["job_id"], :name => "index_vol_job_relationships_on_job_id"
-  add_index "vol_job_relationships", ["volunteer_id", "job_id"], :name => "index_vol_job_relationships_on_volunteer_id_and_job_id", :unique => true
-  add_index "vol_job_relationships", ["volunteer_id"], :name => "index_vol_job_relationships_on_volunteer_id"
+  add_index "vol_group_relationships", ["group_id"], :name => "index_vol_job_relationships_on_job_id"
+  add_index "vol_group_relationships", ["volunteer_id", "group_id"], :name => "index_vol_job_relationships_on_volunteer_id_and_job_id", :unique => true
+  add_index "vol_group_relationships", ["volunteer_id"], :name => "index_vol_job_relationships_on_volunteer_id"
 
   create_table "volunteers", :force => true do |t|
     t.string   "first_name"

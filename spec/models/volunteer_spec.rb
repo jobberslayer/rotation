@@ -9,7 +9,7 @@ describe Volunteer do
   it {should respond_to :last_name}
   it {should respond_to :email}
   it {should respond_to :full_name}
-  it { should respond_to(:vol_job_relationships) }
+  it { should respond_to(:vol_group_relationships) }
 
   it {should be_valid}
 
@@ -108,12 +108,12 @@ describe Volunteer do
     end
   end
 
-  describe "signed up for job" do
-    let(:job) { FactoryGirl.create(:job) }
+  describe "signed up for group" do
+    let(:group) { FactoryGirl.create(:group) }
 
-    before { vol.on_job!(job) }
+    before { vol.joined!(group) }
 
-    it { should be_on_job(job) }
+    it { should be_joined(group) }
   end
 
 end
