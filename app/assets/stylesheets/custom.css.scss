@@ -79,3 +79,43 @@ $grayMediumLight: #eaeaea;
   margin-top: 45px;
   @include box_sizing;
 }
+
+.volunteer_table {
+  padding: 5px;
+}
+
+.volunteer_table th {
+  background-color: #CCCCCC;
+  text-align:left;
+  padding-left: 3px;
+  border-bottom: 1px solid black;
+  border-top: 1px solid black;
+}
+.volunteer_table tr.odd {
+  background-color: #EEEEEE;
+}
+.volunteer_table tr.even {
+  background-color: #CCCCCC;
+}
+
+.volunteer_table td {
+  border-bottom: 1px solid black;
+  padding: 5px;
+}
+
+fieldset div {
+  padding-left: 20px;
+}
+
+#error_explanation {
+  color: #f00;
+  ul {
+    list-style: none;
+    margin: 0 0 18px 0;
+  }
+}
+
+.field_with_errors {
+  @extend .control-group;
+  @extend .error;
+ }

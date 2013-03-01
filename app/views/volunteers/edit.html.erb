@@ -1,0 +1,20 @@
+<div>
+  <%= form_for(@volunteer) do |v| %>
+  <%=render 'shared/error_messages', obj: @volunteer%>
+  <fieldset>
+    <legend>Edit Volunteer</legend>
+    <div class="span2">
+      <%= v.label :first_name %>
+      <%= v.text_field :first_name %>
+
+      <%= v.label :last_name %>
+      <%= v.text_field :last_name %>
+
+      <%= v.label :email %>
+      <%= v.text_field :email%>
+      <br/>
+      <%= v.submit "Add Volunteer", class: "btn btn-large btn-primary" %>
+    </div>
+  </fieldset>
+  <%end%>
+</div>

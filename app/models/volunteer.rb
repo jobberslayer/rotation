@@ -4,7 +4,7 @@ class Volunteer < ActiveRecord::Base
   before_save { |vol| vol.email = email.downcase }
 
   has_many :vol_group_relationships, foreign_key: "volunteer_id", dependent: :destroy
-  has_many :jobs, through: :vol_job_relationships, source: :job
+  has_many :groups, through: :vol_group_relationships, source: :group
 
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
 
@@ -18,6 +18,9 @@ class Volunteer < ActiveRecord::Base
         presence: true, 
         length: {maximum: 50}, 
         format: { with: VALID_EMAIL_REGEX }
+  validates_uniqueness_of :first_name, :scope => [:last_name, :email]
+  validates_uniqueness_of :last_name, :scope => [:first_name, :email]
+  validates_uniqueness_of :email, :scope => [:last_name, :first_name]
 
   def full_name
     [first_name, last_name].join(' ')

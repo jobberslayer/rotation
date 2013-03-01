@@ -1,7 +1,8 @@
 Rotation::Application.routes.draw do
 
+  resources :volunteers
+
   resources :sessions, only: [:new, :create, :destroy]
-  #resources :users, only: [:edit, :update]
 
   root to: 'news#index'
   match '/signin', to: 'sessions#new'
