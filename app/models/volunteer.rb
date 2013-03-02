@@ -22,6 +22,8 @@ class Volunteer < ActiveRecord::Base
   validates_uniqueness_of :last_name, :scope => [:first_name, :email]
   validates_uniqueness_of :email, :scope => [:last_name, :first_name]
 
+  default_scope order('last_name, first_name')
+
   def full_name
     [first_name, last_name].join(' ')
   end
@@ -38,5 +40,6 @@ class Volunteer < ActiveRecord::Base
   def joined?(group)
     vol_group_relationships.find_by_group_id(group.id)
   end
+
 
 end
