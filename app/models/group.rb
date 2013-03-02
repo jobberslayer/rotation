@@ -1,5 +1,5 @@
 class Group < ActiveRecord::Base
-  attr_accessible :email, :name
+  attr_accessible :email, :name, :email_body, :rotation
 
   before_save { |group| group.email = email.downcase }
 

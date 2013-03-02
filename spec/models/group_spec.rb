@@ -8,6 +8,7 @@ describe Group do
   it {should respond_to :name}
   it {should respond_to :email}
   it {should respond_to :rotation}
+  it {should respond_to :email_body}
   it {should_not be_rotation}
 
   it {should be_valid}
