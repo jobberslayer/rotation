@@ -8,6 +8,7 @@
           <% if signed_in? %>
             <li><%= link_to "Profile", "/profile" %>
             <li><%= link_to "Volunteers", "/volunteers" %>
+              <li><%= link_to "Groups", "/groups" %>
             <li><%= link_to "Sign out | (#{@current_user.user_name})", signout_path, method: "delete" %>
             </li>
           <% else %>

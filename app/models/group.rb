@@ -16,6 +16,8 @@ class Group < ActiveRecord::Base
         length: {maximum: 50}, 
         format: { with: VALID_EMAIL_REGEX }
 
+  default_scope order('name')
+
   def signed_up!(vol)
     vol_group_relationships.create!(volunteer_id: vol.id)
   end

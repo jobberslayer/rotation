@@ -1,31 +1,38 @@
 <div>
-  <%= form_for(@volunteer) do |v| %>
-  <%=render 'shared/error_messages', obj: @volunteer%>
-  <fieldset>
-    <legend>Add Volunteer</legend>
-    <div class="span2">
-      <%= v.label :first_name %>
-      <%= v.text_field :first_name %>
+  <div>
+    <%= form_for(@volunteer) do |v| %>
+    <%=render 'shared/error_messages', obj: @volunteer%>
+    <fieldset>
+      <legend>Add Volunteer</legend>
+      <div class="span2">
+        <%= v.label :first_name %>
+        <%= v.text_field :first_name %>
 
-      <%= v.label :last_name %>
-      <%= v.text_field :last_name %>
+        <%= v.label :last_name %>
+        <%= v.text_field :last_name %>
 
-      <%= v.label :email %>
-      <%= v.text_field :email%>
-      <br/>
-      <%= v.submit "Add Volunteer", class: "btn btn-large btn-primary" %>
-    </div>
-  </fieldset>
-  <% end %>
-  <fieldset>
-    <legend>Volunteers</legend>
-    <div>
-      <table class="volunteer_table">
-        <tr>
-          <th>Name</th><th>Email</th><th></th><th></th>
-        </tr>
-        <%= render @volunteers %>
-      </table>
-    </div>
-  </fieldset>
+        <%= v.label :email %>
+        <%= v.text_field :email%>
+        <br/>
+        <%= v.submit "Add Volunteer", class: "btn btn-large btn-primary" %>
+      </div>
+    </fieldset>
+    <% end %>
+  </div>
+  <div>
+    <fieldset>
+      <legend>Volunteers</legend>
+      <div>
+        <%= will_paginate %>
+        <table class="volunteer_table">
+          <tr>
+            <th>Name</th><th>Email</th><th></th><th></th>
+          </tr>
+          <%= render @volunteers %>
+        </table>
+        <%= will_paginate %>
+      </div>
+    </fieldset>
+  </div>
+  <div style="clear:both"></div>
 </div>

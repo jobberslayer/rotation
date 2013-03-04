@@ -1,24 +1,24 @@
 require 'highline'
 namespace :db do
   namespace :setup do
-    desc "create default admin user"
-    task :admin => :environment do
-      admin = User.create(
-        uname: "admin", 
-        fname: "Admin",
-        lname: "User",
-        email: "kevin@e-kevin.com", 
-        password: "adminadmin", 
-        password_confirmation: "adminadmin"
-      )
-      if admin.save 
-        puts "Admin account created"
-      else
-        puts
-        puts "Problem creating admin account:"
-        puts admin.errors.full_messages
-      end
-    end  
+    # desc "create default admin user"
+    # task :admin => :environment do
+    #   admin = User.create(
+    #     uname: "admin", 
+    #     fname: "Admin",
+    #     lname: "User",
+    #     email: "kevin@e-kevin.com", 
+    #     password: "adminadmin", 
+    #     password_confirmation: "adminadmin"
+    #   )
+    #   if admin.save 
+    #     puts "Admin account created"
+    #   else
+    #     puts
+    #     puts "Problem creating admin account:"
+    #     puts admin.errors.full_messages
+    #   end
+    # end  
     
     desc "Create user accounts with rake, prompting for user name and password."
     task :user => :environment do

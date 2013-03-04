@@ -103,6 +103,30 @@ $grayMediumLight: #eaeaea;
   padding: 5px;
 }
 
+.group_table {
+  padding: 5px;
+  width:500px;
+}
+
+.group_table th {
+  background-color: #CCCCCC;
+  text-align:left;
+  padding-left: 3px;
+  border-bottom: 1px solid black;
+  border-top: 1px solid black;
+}
+.group_table tr.odd {
+  background-color: #EEEEEE;
+}
+.group_table tr.even {
+  background-color: #CCCCCC;
+}
+
+.group_table td {
+  border-bottom: 1px solid black;
+  padding: 5px;
+}
+
 fieldset div {
   padding-left: 20px;
 }

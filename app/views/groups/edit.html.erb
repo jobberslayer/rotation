@@ -1,0 +1,29 @@
+<div>
+  <%= form_for(@group) do |g| %>
+  <%=render 'shared/error_messages', obj: @group%>
+  <fieldset>
+    <legend>Edit Group</legend>
+    <div class="span2">
+      <%= g.label :name %>
+      <%= g.text_field :name %>
+
+      <%= g.label :email %>
+      <%= g.text_field :email%>
+
+      <div class="controls">        
+        <%= g.label :rotation do%>
+          <%= g.check_box :rotation %>        
+          <%= "has a rotation" %>
+        <% end %>
+      </div>
+
+      <%= g.label :email_body %>
+      <%= g.text_area :email_body, class: "field span8", cols: 100, rows: 5%>
+      <i class="span8">* only needed if group has a rotation</i>
+
+      <br/><br/>
+      <%= g.submit "Save changes", class: "btn btn-large btn-primary" %>
+    </div>
+  </fieldset>
+  <%end%>
+</div>

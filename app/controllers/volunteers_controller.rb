@@ -1,7 +1,4 @@
 class VolunteersController < ApplicationController
-  def new
-  end
-
   def create
     @vol = Volunteer.new(params[:volunteer])
     if @vol.save
@@ -11,7 +8,7 @@ class VolunteersController < ApplicationController
       @volunteer = @vol
     end
 
-    @volunteers = Volunteer.all()
+    @volunteers = pager()
     render "index"
   end
 
@@ -24,7 +21,7 @@ class VolunteersController < ApplicationController
     if @volunteer.update_attributes(params[:volunteer])
       flash[:success] = "Volunteer #{@volunteer.full_name} updated."
       @volunteer = Volunteer.new()
-      @volunteers = Volunteer.all()
+      @volunteers = pager()
       render "index"
     else
       render "edit"
@@ -40,6 +37,10 @@ class VolunteersController < ApplicationController
 
   def index
     @volunteer = Volunteer.new()
-    @volunteers = Volunteer.all()
+    @volunteers = pager()
+  end
+
+  def pager
+    Volunteer.paginate(page: params[:page], per_page: 10)
   end
 end

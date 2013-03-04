@@ -1,6 +1,9 @@
 Rotation::Application.routes.draw do
 
+  get "groups/index"
+
   resources :volunteers
+  resources :groups
 
   resources :sessions, only: [:new, :create, :destroy]
 
