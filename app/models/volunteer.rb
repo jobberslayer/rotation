@@ -33,6 +33,16 @@ class Volunteer < ActiveRecord::Base
     self.first_name = name.split(' ')[0..-2].join(' ')
   end
 
+  def self.find_by_full_name(full_name)
+    Volunteer.all(
+      :conditions => [
+        "first_name LIKE ? and last_name LIKE ?",
+        "%#{full_name.split(' ')[0..-2].join(' ')}%",
+        "%#{full_name.split(' ').last}%"
+      ]
+    ).first
+  end
+
   def joined!(group)
     vol_group_relationships.create!(group_id: group.id)
   end
@@ -40,6 +50,5 @@ class Volunteer < ActiveRecord::Base
   def joined?(group)
     vol_group_relationships.find_by_group_id(group.id)
   end
-
 
 end

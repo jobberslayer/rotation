@@ -10,7 +10,7 @@ namespace :db do
         rows = db.execute( "select name, email from volunteers" )
         rows.each do |vol|
           v = Volunteer.new()
-          if vol[0] =~ /\@/
+          if vol[0] =~ /(.*)\@/
             vol[0] = "Unknown Zzzz"
           end
           v.full_name = vol[0]
@@ -52,6 +52,36 @@ namespace :db do
       desc "Nuke Group data."
       task :nuke_groups => :environment do
         nukeem(Group)
+      end
+
+      desc "Migrate in relationships betwee volunteers and groups from old system."
+      task :vol_group_relations => :environment do
+        db = SQLite3::Database.new( "db/mydata.rdb" )
+        rows = db.execute(" 
+          select v.email, r.name from volunteers v 
+          join rotation_vols rv on v.id = volunteer_id 
+          join rotations r on r.id = rv.rotation_id 
+          where on_rotation = 1
+        ")
+
+        rows.each do |row|
+          vol = Volunteer.find_by_email(row[0].downcase)
+          group = Group.find_by_name(row[1])
+          puts "Trying #{row[0].downcase} into #{row[1]}"
+          vol.joined!(group)
+          if vol.save
+            puts "imported #{row[0].downcase} to group #{row[1]}"
+          else
+            puts
+            puts "Problem adding vol #{row[0].downcase} group #{row[1]}"
+            puts vol.errors.full_messages
+          end
+        end
+      end
+
+      desc "Nuke Volunteer/Group relationship data."
+      task :nuke_vol_group_relations => :environment do
+        nukeem(VolGroupRelationship)
       end
 
       def nukeem(obj)

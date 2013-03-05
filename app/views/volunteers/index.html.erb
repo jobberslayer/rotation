@@ -1,5 +1,20 @@
 <div>
   <div>
+    <fieldset>
+      <legend>Volunteers</legend>
+      <div>
+        <%= will_paginate %>
+        <table class="volunteer_table">
+          <tr>
+            <th>Name</th><th>Email</th><th></th><th></th>
+          </tr>
+          <%= render @volunteers %>
+        </table>
+        <%= will_paginate %>
+      </div>
+    </fieldset>
+  </div>
+  <div>
     <%= form_for(@volunteer) do |v| %>
     <%=render 'shared/error_messages', obj: @volunteer%>
     <fieldset>
@@ -19,20 +34,4 @@
     </fieldset>
     <% end %>
   </div>
-  <div>
-    <fieldset>
-      <legend>Volunteers</legend>
-      <div>
-        <%= will_paginate %>
-        <table class="volunteer_table">
-          <tr>
-            <th>Name</th><th>Email</th><th></th><th></th>
-          </tr>
-          <%= render @volunteers %>
-        </table>
-        <%= will_paginate %>
-      </div>
-    </fieldset>
-  </div>
-  <div style="clear:both"></div>
 </div>
