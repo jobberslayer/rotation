@@ -1,4 +1,6 @@
 class VolunteersController < ApplicationController
+  before_filter :signed_in_user
+
   def create
     @vol = Volunteer.new(params[:volunteer])
     if @vol.save
@@ -38,6 +40,28 @@ class VolunteersController < ApplicationController
   def index
     @volunteer = Volunteer.new()
     @volunteers = pager()
+  end
+
+  def groups
+    @volunteer = Volunteer.find(params[:id])
+    @groups = @volunteer.groups
+    @unjoined = @volunteer.not_joined()
+  end
+
+  def leave_group
+    relationship = VolGroupRelationship.find_by_volunteer_id_and_group_id(
+      params[:volunteer_id], 
+      params[:group_id]
+    )
+    relationship.destroy
+    redirect_to groups_volunteer_url(params[:volunteer_id])
+  end
+
+  def join_group
+    vol = Volunteer.find(params[:volunteer_id])
+    group = Group.find(params[:group_id])
+    vol.join!(group)    
+    redirect_to groups_volunteer_url(vol.id)
   end
 
   def pager

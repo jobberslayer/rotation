@@ -13,6 +13,9 @@
 #Ignore old sqlite3 migration db
 /db/*.rdb
 
+*.vim
+*.swp
+
 # Ignore all logfiles and tempfiles.
 /log/*.log
 /tmp

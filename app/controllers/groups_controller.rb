@@ -1,4 +1,6 @@
 class GroupsController < ApplicationController
+  before_filter :signed_in_user
+  
   def create
     @g = Group.new(params[:group])
     if @g.save

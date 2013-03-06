@@ -1,0 +1,32 @@
+<h1><%= @volunteer.full_name %> &lt;<%= @volunteer.email %>&gt;</h1>
+<div class="pull-left" style="width:45%;padding:5px;">
+<h3>Current Groups</h3>
+  <table class="group_table">
+    <tr>
+      <th>Name</th><th>Email</th><th></th>
+    </tr>
+    <% @groups.each do |g| %>
+      <tr class="<%= cycle("odd", "even") %>">
+        <td><%= g.name %></td>
+        <td><%= g.email %></td>
+        <td><%= link_to 'leave', leave_group_volunteer_path(@volunteer.id, g.id) %></td> 
+      </tr>
+    <% end %>
+  </table>
+</div>
+<div class="pull-right" style="width:45%">
+  <h3>Available Groups</h3>
+  <table class="group_table">
+    <tr>
+      <th>Name</th><th>Email</th><th></th>
+    </tr>
+    <% @unjoined.each do |g| %>
+      <tr class="<%= cycle("odd", "even") %>">
+        <td><%= g.name %></td>
+        <td><%= g.email %></td>
+        <td><%= link_to 'add', join_group_volunteer_path(@volunteer.id, g.id) %></td> 
+      </tr>
+    <% end %>
+  </table>
+</div>
+<div style="clear:both"></div>

@@ -1,7 +1,15 @@
 <tr class="<%= cycle("odd", "even") %>">
   <td><%= group.name %></td>
   <td><%= group.email %></td>
-  <td><%= group.rotation? %></td>
-  <td><%= link_to "edit", edit_group_path(group.id) %>
-  <td><%= link_to 'remove', group, :confirm => 'Are you sure you want to destroy your account?', :method => :delete %> 
+  <% if mode == 'edit' %>
+    <td><%= group.rotation? %></td>  
+    <td><%= link_to "edit", edit_group_path(group) %>
+    <td><%= link_to 'remove', group, :confirm => 'Are you sure you want to destroy your account?', :method => :delete %> 
+  <% end %>
+  <% if mode == 'volunteer' %>
+    <td>
+      <%= link_to 'leave', leave_group_volunteer_path(vol_group_relationship.id),
+        :confirm => 'Are you sure you want to destroy your account?', :method => :delete %>
+    </td>
+  <% end %>
 </tr>

@@ -32,7 +32,7 @@ class Volunteer < ActiveRecord::Base
     self.last_name = name.split(' ').last
     self.first_name = name.split(' ')[0..-2].join(' ')
   end
-
+  
   def self.find_by_full_name(full_name)
     Volunteer.all(
       :conditions => [
@@ -43,12 +43,24 @@ class Volunteer < ActiveRecord::Base
     ).first
   end
 
-  def joined!(group)
+  def join!(group)
     vol_group_relationships.create!(group_id: group.id)
   end
 
   def joined?(group)
     vol_group_relationships.find_by_group_id(group.id)
+  end
+
+  def not_joined
+    Group.all - self.groups
+    # unjoined = Array.new()
+    # Group.all().each do |g|
+    #   if (!self.joined?(g))
+    #     unjoined.push(g)
+    #   end
+    # end
+
+    # return unjoined
   end
 
 end
