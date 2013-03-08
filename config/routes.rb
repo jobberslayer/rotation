@@ -5,14 +5,20 @@ Rotation::Application.routes.draw do
   resources :volunteers do
     member do
       get :groups
-      #delete :leave_group
     end
   end
 
   match '/volunteers/:volunteer_id/join_group/:group_id', to: 'volunteers#join_group', :as => :join_group_volunteer
   match '/volunteers/:volunteer_id/leave_group/:group_id', to: 'volunteers#leave_group', :as => :leave_group_volunteer
 
-  resources :groups
+  resources :groups do
+    member do
+      get :volunteers
+    end
+  end
+
+  match '/groups/:group_id/add_volunteer/:volunteer_id', to: 'groups#add_volunteer', :as => :add_volunteer_group
+  match '/groups/:group_id/remove_volunteer/:volunteer_id', to: 'groups#remove_volunteer', :as => :remove_volunteer_group
 
   resources :sessions, only: [:new, :create, :destroy]
 

@@ -4,7 +4,7 @@ class Group < ActiveRecord::Base
   before_save { |group| group.email = email.downcase }
 
   has_many :vol_group_relationships, foreign_key: "group_id", dependent: :destroy
-  has_many :volunteers, through: :vol_groups_relationships, source: :volunteer
+  has_many :volunteers, through: :vol_group_relationships, source: :volunteer
 
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i  
 
@@ -24,5 +24,9 @@ class Group < ActiveRecord::Base
 
   def signed_up?(vol)
     vol_group_relationships.find_by_volunteer_id(vol.id)
+  end
+
+  def non_volunteers
+    Volunteer.all - self.volunteers
   end
 end

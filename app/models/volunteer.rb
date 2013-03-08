@@ -53,14 +53,6 @@ class Volunteer < ActiveRecord::Base
 
   def not_joined
     Group.all - self.groups
-    # unjoined = Array.new()
-    # Group.all().each do |g|
-    #   if (!self.joined?(g))
-    #     unjoined.push(g)
-    #   end
-    # end
-
-    # return unjoined
   end
 
 end

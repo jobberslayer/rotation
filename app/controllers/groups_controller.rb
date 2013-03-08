@@ -42,6 +42,28 @@ class GroupsController < ApplicationController
     @groups = pager()
   end
 
+  def volunteers
+    @group = Group.find(params[:id])
+    @volunteers = @group.volunteers
+    @unjoined = @group.non_volunteers()
+  end
+
+  def remove_volunteer
+    relationship = VolGroupRelationship.find_by_volunteer_id_and_group_id(
+      params[:volunteer_id], 
+      params[:group_id]
+    )
+    relationship.destroy
+    redirect_to volunteers_group_url(params[:group_id])
+  end
+
+  def add_volunteer
+    vol = Volunteer.find(params[:volunteer_id])
+    group = Group.find(params[:group_id])
+    vol.join!(group)    
+    redirect_to volunteers_group_url(group.id)
+  end
+
   def pager
     Group.paginate(page: params[:page], per_page: 10)
   end
