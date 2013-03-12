@@ -5,6 +5,7 @@ class Group < ActiveRecord::Base
 
   has_many :vol_group_relationships, foreign_key: "group_id", dependent: :destroy
   has_many :volunteers, through: :vol_group_relationships, source: :volunteer
+  has_many :schedules, through: :vol_group_relationships, source: :schedules
 
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i  
 

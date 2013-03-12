@@ -1,0 +1,23 @@
+<div class="pull-left">
+  <%= link_to "<< previous Sunday", list_schedule_path(@prev_year, @prev_month, @prev_day) %> 
+</div>
+<div class="pull-right">
+  <%= link_to "next Sunday >>", list_schedule_path(@next_year, @next_month, @next_day) %> 
+</div>
+<div style="clear:both"></div>
+<div class="center">
+  <h2><%= @formal_date %></h2>
+</div>
+
+<div>
+  <table class="group_table" style="width:100%">
+  <th>Group</th><th>Volunteers</th><th></th>
+  <% @rotations.each do |r| %>
+    <tr class="<%= cycle("odd", "even") %>">
+      <td><%= r.name %></td>
+      <td><%= get_dates_volunteers(r.id, @year.to_i, @month.to_i, @day.to_i) %></td>
+      <td><%= link_to 'edit', edit_schedule_url(@year, @month, @day, r.id) %></td>
+    </tr> 
+  <% end %>
+  </table>
+</div>

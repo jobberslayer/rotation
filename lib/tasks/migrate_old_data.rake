@@ -30,7 +30,7 @@ namespace :db do
         nukeem(Volunteer)
       end
 
-      desc "Migrate in volunteers from old system."
+      desc "Migrate in groups(ie rotations) from old system."
       task :groups => :environment do
         db = SQLite3::Database.new( "db/mydata.rdb" )
         rows = db.execute( "select name, email, has_rotation from rotations" )
@@ -52,6 +52,40 @@ namespace :db do
       desc "Nuke Group data."
       task :nuke_groups => :environment do
         nukeem(Group)
+      end
+
+      desc "Migrate in schedule(ie rotation_dates)  from old system."
+      task :schedules => :environment do
+        db = SQLite3::Database.new( "db/mydata.rdb" )
+        rows = db.execute( 
+          "select v.email, r.name, d.date from rotation_dates d join volunteers v on d.volunteer_id = v.id join rotations r on d.rotation_id = r.id where d.date >= #{Time.now.strftime("%Y%m%d")}" 
+        )
+        rows.each do |row|
+          v = Volunteer.find_by_email(row[0].downcase)
+          g = Group.find_by_name(row[1])
+          date = row[2]
+
+          puts "#{row[0]} #{row[1]} #{row[2]}"
+          puts v.id, v.full_name 
+          puts g.id, g.name
+
+          r = VolGroupRelationship.find_by_volunteer_id_and_group_id(v.id, g.id)
+          s = Schedule.new()
+          s.relationship_id = r.id
+          s.when = date
+          if s.save
+            puts "imported #{row[0]} <#{row[1]}> for date #{row[2]}"
+          else
+            puts
+            puts "Problem importing group #{row[0]} <#{row[1]}> for date #{row[2]}"
+            puts s.errors.full_messages
+          end
+        end
+      end
+
+      desc "Nuke schedules relationship data."
+      task :nuke_schedules => :environment do
+        nukeem(Schedule)
       end
 
       desc "Migrate in relationships betwee volunteers and groups from old system."

@@ -28,6 +28,10 @@ Rotation::Application.routes.draw do
   match '/profile/update', to: 'users#update'
   match '/profile', to: 'users#edit'
 
+  match '/schedule/:year/:month/:day', to: "schedules#list", :constraints => { :year => /\d{4}/, :month => /\d{2}/, :day => /\d{2}/ }, :as => 'list_schedule' 
+  match '/schedule/:year/:month/:day/edit/:group_id', to: "schedules#edit", :constraints => { :year => /\d{4}/, :month => /\d{2}/, :day => /\d{2}/, :group_id => /\d{1,}/ }, :as => 'edit_schedule' 
+  match '/schedule', to: 'schedules#index', :as => 'index_schedule'
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
