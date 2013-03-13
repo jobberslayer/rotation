@@ -30,4 +30,11 @@ class Group < ActiveRecord::Base
   def non_volunteers
     Volunteer.all - self.volunteers
   end
+
+  def clear_schedule(year, month, day)
+    vgrs = VolGroupRelationship.joins(:schedules).where("vol_group_relationships.group_id" => self.id).where("schedules.when" => Date.new(year.to_i, month.to_i, day.to_i).strftime('%Y-%m-%d'))
+    vgrs.each do |relationship|
+      Schedule.delete_all(["relationship_id = ?", relationship.id])
+    end
+  end
 end
