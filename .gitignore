@@ -19,3 +19,6 @@
 # Ignore all logfiles and tempfiles.
 /log/*.log
 /tmp
+
+# Ignore files with sensitive information. Have a tmplate file instead
+config/initializers/rotation_email_setup.rb

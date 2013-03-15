@@ -11,15 +11,15 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130312160548) do
+ActiveRecord::Schema.define(:version => 20130315154445) do
 
   create_table "groups", :force => true do |t|
     t.string   "name"
     t.string   "email"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",                :null => false
+    t.datetime "updated_at",                :null => false
     t.boolean  "rotation"
-    t.string   "email_body"
+    t.text     "email_body", :limit => 255
   end
 
   create_table "schedules", :force => true do |t|
