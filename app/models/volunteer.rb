@@ -44,16 +44,27 @@ class Volunteer < ActiveRecord::Base
     ).first
   end
 
+  def active_groups
+    groups.where('vol_group_relationships.disabled = ?', false)
+  end
+
   def join!(group)
-    vol_group_relationships.create!(group_id: group.id)
+    r = vol_group_relationships.find_by_group_id(group.id)
+    if r.nil?
+      vol_group_relationships.create!(group_id: group.id, disabled: 'f')
+    else
+      r.disabled = 'f'
+      r.save
+    end        
   end
 
   def joined?(group)
-    vol_group_relationships.find_by_group_id(group.id)
+    vol_group_relationships.find_by_group_id(group.id).
+        where('vol_group_relationships.disabled != ?', true)
   end
 
   def not_joined
-    Group.all - self.groups
+    Group.all - self.groups.where('vol_group_relationships.disabled != ?', true)
   end
 
   def self.scheduled_for(group_id, year, month, day)

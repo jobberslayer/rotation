@@ -1,4 +1,6 @@
 Rotation::Application.routes.draw do
+  match '/change_log', to: 'change_log#index', :as => 'index_change_log'
+  match '/change_log/resync', to: 'change_log#resync', :as => 'resync_change_log'
 
   get "groups/index"
 

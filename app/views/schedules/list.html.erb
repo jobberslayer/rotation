@@ -15,7 +15,7 @@
   <% @rotations.each do |r| %>
     <tr class="<%= cycle("odd", "even") %>">
       <td><%= r.name %></td>
-      <td><%= get_dates_volunteers(r.id, @year.to_i, @month.to_i, @day.to_i) %></td>
+      <td><%= Formatters.volunteers(r.scheduled_volunteers(@year.to_i, @month.to_i, @day.to_i)) %></td>
       <td><%= link_to 'edit', edit_schedule_url(@year, @month, @day, r.id) %></td>
     </tr> 
   <% end %>

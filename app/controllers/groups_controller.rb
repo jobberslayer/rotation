@@ -44,7 +44,7 @@ class GroupsController < ApplicationController
 
   def volunteers
     @group = Group.find(params[:id])
-    @volunteers = @group.volunteers
+    @volunteers = @group.active_volunteers
     @unjoined = @group.non_volunteers()
   end
 

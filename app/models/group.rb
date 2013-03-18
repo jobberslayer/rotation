@@ -19,12 +19,37 @@ class Group < ActiveRecord::Base
 
   default_scope order('name')
 
-  def signed_up!(vol)
-    vol_group_relationships.create!(volunteer_id: vol.id)
+  def current_volunteer?(vol)
+    !vol_group_relationships.where('volunteer_id = ?', vol.id).first.disabled
+  end
+
+  def sign_up!(vol)
+    r = vol_group_relationships.find_by_group_id(group.id)
+    if r.nil?
+      vol_group_relationships.create!(volunteer_id: vol.id, disabled: 'f')
+    else
+      r.disabled = 'f'
+      r.save
+    end
   end
 
   def signed_up?(vol)
     vol_group_relationships.find_by_volunteer_id(vol.id)
+  end
+
+  def sunday_volunteers
+    (year, month, day) = DateHelp.get_next_sunday
+    scheduled_volunteers(year, month, day)
+  end
+
+  def next_sunday_volunteers
+    (year, month, day) = DateHelp.get_next_sunday
+    (year, month, day) = DateHelp.next_week(year, month, day)
+    scheduled_volunteers(year, month, day)
+  end
+
+  def scheduled_volunteers(year, month, day)
+    Volunteer.scheduled_for(self.id, year, month, day)
   end
 
   def non_volunteers
@@ -37,4 +62,13 @@ class Group < ActiveRecord::Base
       Schedule.delete_all(["relationship_id = ?", relationship.id])
     end
   end
+
+  def active_volunteers
+    volunteers.where('vol_group_relationships.disabled = ?', false)
+  end
+
+  def volunteers_changed_since(date)
+    self.volunteers.where("vol_group_relationships.updated_at >= ?", date.strftime("%Y-%m-%d %H:%M:%S")) || []
+  end 
+
 end

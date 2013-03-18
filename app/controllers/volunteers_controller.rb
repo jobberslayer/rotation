@@ -44,7 +44,7 @@ class VolunteersController < ApplicationController
 
   def groups
     @volunteer = Volunteer.find(params[:id])
-    @groups = @volunteer.groups
+    @groups = @volunteer.active_groups
     @unjoined = @volunteer.not_joined()
   end
 
@@ -53,7 +53,8 @@ class VolunteersController < ApplicationController
       params[:volunteer_id], 
       params[:group_id]
     )
-    relationship.destroy
+    relationship.disabled = true
+    relationship.save
     redirect_to groups_volunteer_url(params[:volunteer_id])
   end
 

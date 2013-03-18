@@ -1,0 +1,12 @@
+class ChangeLogController < ApplicationController
+  def index
+    @groups = Group.all
+    @last_sync = LastSync.get
+  end
+
+  def resync
+    flash[:success] = "Resync complete"
+    LastSync.set
+    redirect_to index_change_log_path
+  end
+end

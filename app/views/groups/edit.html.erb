@@ -18,8 +18,17 @@
       </div>
 
       <%= g.label :email_body %>
-      <%= g.text_area :email_body, class: "field span8", cols: 100, rows: 5%>
+      <%= g.text_area :email_body, class: "field span8", cols: 100, rows: 15%>
       <i class="span8">* only needed if group has a rotation</i>
+      <div class="span8">
+        <b>Template Variables</b>
+        <ul>
+          <li><%= "<%=this_week%\>" %> - This coming Sunday's date 
+          <li><%= "<%=this_week_vols%\>" %> - This coming Sunday's volunteers 
+          <li><%= "<%=next_week%\>" %> - The next Sunday's date 
+          <li><%= "<%=next_week_vols%\>" %> - The next Sunday's volunteers 
+        </ul>
+      </div>
 
       <br/><br/>
       <%= g.submit "Save changes", class: "btn btn-large btn-primary" %>

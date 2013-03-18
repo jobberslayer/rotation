@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130315154445) do
+ActiveRecord::Schema.define(:version => 20130318175845) do
 
   create_table "groups", :force => true do |t|
     t.string   "name"
@@ -48,6 +48,7 @@ ActiveRecord::Schema.define(:version => 20130315154445) do
     t.integer  "group_id"
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
+    t.boolean  "disabled"
   end
 
   add_index "vol_group_relationships", ["group_id"], :name => "index_vol_job_relationships_on_job_id"

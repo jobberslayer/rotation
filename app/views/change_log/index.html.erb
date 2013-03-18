@@ -1,0 +1,26 @@
+<h2>Resync</h2>
+<%= form_tag resync_change_log_url, method: 'post' do %>
+  <pre>Only click this after you have made all the changes to the google mailing lists!!!</pre>
+  <%= submit_tag "Resync", class: "btn btn-large btn-primary" %>
+  <br/><br/>
+  <pre>Only click this after you have made all the changes to the google mailing lists!!!.</pre>
+<% end %>
+<%= link_to "Google Mailing List", "http://google.com/a/franklinstreetchurch.org", target: :blank %>
+<hr/>
+<h2>Mailing List Changes</h2> 
+<i>since <%= Formatters.date_time(@last_sync) %></i>
+<% @groups.each do |g| %>
+  <% vols = g.volunteers_changed_since(@last_sync.utc) %>
+  <% if !vols.empty? %>
+    <h3><%= g.name %></h3>
+    <ul>
+    <% vols.each do |v| %>
+      <li>
+        <b><%= g.current_volunteer?(v) ? 'add ' : 'remove '%></b>
+        <%= v.full_name + " <#{v.email}>"%>
+      </li>
+    <% end %>
+    </ul>
+    <hr/>
+  <% end %>
+<% end %>

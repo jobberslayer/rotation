@@ -1,7 +1,7 @@
 <header class="navbar navbar-fixed-top navbar-inverse">
   <div class="navbar-inner">
     <div class="container">
-      <%= link_to "Franklin Street Rotation", '/', id: "logo" %>
+      <%= link_to "FSC Groups", '/', id: "logo" %>
       <nav>
         <ul class="nav pull-right">
           <li><%= link_to "Home",    '/' %></li>          
@@ -10,6 +10,7 @@
             <li><%= link_to "Volunteers", "/volunteers" %>
             <li><%= link_to "Groups", "/groups" %>
             <li><%= link_to "Schedule", "/schedule" %>
+            <li><%= link_to "Changes", "/change_log" %>
             <li><%= link_to "Sign out | (#{@current_user.user_name})", signout_path, method: "delete" %>
             </li>
           <% else %>

@@ -65,7 +65,7 @@ describe Group do
   describe "added volunteer" do
     let(:vol) { FactoryGirl.create(:volunteer) }
 
-    before { group.signed_up!(vol) }
+    before { group.sign_up!(vol) }
 
     it { should be_signed_up(vol) }
   end
