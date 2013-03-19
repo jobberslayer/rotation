@@ -1,4 +1,6 @@
 class SchedulesController < ApplicationController
+  before_filter :signed_in_user
+
   def index
     (year, month, day) = DateHelp.get_next_sunday()
     redirect_to list_schedule_url(year, month, day)
