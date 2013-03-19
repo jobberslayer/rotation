@@ -4,6 +4,9 @@ Rotation::Application.configure do
   # Code is not reloaded between requests
   config.cache_classes = true
 
+  # WKL: Need to set this up so css is compiled at runtime
+  config.assets.compile = true
+
   # added by WKL: set up base url for email links
   config.action_mailer.default_url_options = { :host => 'rotation.franklinstreetchurch.org' }
 
