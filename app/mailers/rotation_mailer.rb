@@ -29,13 +29,11 @@ class RotationMailer < ActionMailer::Base
     )
   end
 
-  def changes_email(diff_file)
-    attachments['diffs.txt'] = File.read(diff_file)
+  def changes_email
     mail(
       to: EMAIL_ADMINS,
       from: EMAIL_FROM,
       subject: "Changes made to volunteers/groups.",
-      body: "Changes made. See diff file attachment." 
     )
   end
 end
