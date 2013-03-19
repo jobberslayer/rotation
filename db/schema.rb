@@ -11,15 +11,16 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130318175845) do
+ActiveRecord::Schema.define(:version => 20130319220600) do
 
   create_table "groups", :force => true do |t|
     t.string   "name"
     t.string   "email"
-    t.datetime "created_at",                :null => false
-    t.datetime "updated_at",                :null => false
+    t.datetime "created_at",                                   :null => false
+    t.datetime "updated_at",                                   :null => false
     t.boolean  "rotation"
     t.text     "email_body", :limit => 255
+    t.boolean  "disabled",                  :default => false
   end
 
   create_table "schedules", :force => true do |t|
@@ -46,9 +47,9 @@ ActiveRecord::Schema.define(:version => 20130318175845) do
   create_table "vol_group_relationships", :force => true do |t|
     t.integer  "volunteer_id"
     t.integer  "group_id"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
-    t.boolean  "disabled"
+    t.datetime "created_at",                      :null => false
+    t.datetime "updated_at",                      :null => false
+    t.boolean  "disabled",     :default => false
   end
 
   add_index "vol_group_relationships", ["group_id"], :name => "index_vol_job_relationships_on_job_id"
@@ -59,10 +60,11 @@ ActiveRecord::Schema.define(:version => 20130318175845) do
     t.string   "first_name"
     t.string   "last_name"
     t.string   "email"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",                    :null => false
+    t.datetime "updated_at",                    :null => false
+    t.boolean  "disabled",   :default => false
   end
 
-  add_index "volunteers", ["first_name", "last_name", "email"], :name => "index_volunteers_on_first_name_and_last_name_and_email", :unique => true
+  add_index "volunteers", ["first_name", "last_name", "email"], :name => "index_volunteers_compound_key", :unique => true
 
 end

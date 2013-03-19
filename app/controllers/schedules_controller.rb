@@ -28,7 +28,7 @@ class SchedulesController < ApplicationController
 
     @formal_date = Time.new(@year, @month, @day).strftime('%A, %B %d, %Y')
 
-    @volunteers = @group.volunteers
+    @volunteers = @group.active_volunteers
     @volunteers_serving = Volunteer.scheduled_for(@group_id, @year, @month, @day)
   end
 

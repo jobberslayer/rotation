@@ -1,5 +1,20 @@
 <div>
-  <div class="pull-left" style="width:40%">
+  <div>
+    <fieldset>
+      <legend>Groups</legend>
+      <div>
+        <%= will_paginate %>
+        <table class="group_table">
+          <tr>
+            <th>Name</th><th>Email</th><th>Rotation</th><th></th><th></th><th></th>
+          </tr>
+          <%= render @groups, mode: 'edit' %>
+        </table>
+        <%= will_paginate %>
+      </div>
+    </fieldset>
+  </div>
+  <div>
     <%= form_for(@group) do |g| %>
     <%=render 'shared/error_messages', obj: @group%>
     <fieldset>
@@ -16,20 +31,4 @@
     </fieldset>
     <% end %>
   </div>
-  <div class="pull-right" style="width:60%">
-    <fieldset>
-      <legend>Groups</legend>
-      <div>
-        <%= will_paginate %>
-        <table class="group_table">
-          <tr>
-            <th>Name</th><th>Email</th><th>Rotation</th><th></th><th></th><th></th>
-          </tr>
-          <%= render @groups, mode: 'edit' %>
-        </table>
-        <%= will_paginate %>
-      </div>
-    </fieldset>
-  </div>
-  <div style="clear:both"></div>
 </div>

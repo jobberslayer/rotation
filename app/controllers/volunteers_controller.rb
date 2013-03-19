@@ -2,7 +2,14 @@ class VolunteersController < ApplicationController
   before_filter :signed_in_user
 
   def create
-    @vol = Volunteer.new(params[:volunteer])
+    # in case already in database but disabled in the past
+    @vol = Volunteer.find_by_first_name_and_last_name_and_email_and_disabled(params[:volunteer][:first_name], params[:volunteer][:last_name], params[:volunteer][:email], true)
+    if @vol.nil?
+      @vol = Volunteer.new(params[:volunteer])
+    else
+      @vol.disabled = false
+    end
+
     if @vol.save
       flash.now[:success] = "Volunteer #{@vol.full_name} created."
       @volunteer = Volunteer.new()
@@ -32,7 +39,7 @@ class VolunteersController < ApplicationController
 
   def destroy
     vol = Volunteer.find(params[:id])
-    vol.destroy
+    vol.disable
     flash[:success] = "#{vol.full_name} removed."
     redirect_to volunteers_url
   end
@@ -66,6 +73,6 @@ class VolunteersController < ApplicationController
   end
 
   def pager
-    Volunteer.paginate(page: params[:page], per_page: 10)
+    Volunteer.available.paginate(page: params[:page], per_page: 10)
   end
 end

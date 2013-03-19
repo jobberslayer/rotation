@@ -24,6 +24,7 @@ class Volunteer < ActiveRecord::Base
   validates_uniqueness_of :email, :scope => [:last_name, :first_name]
 
   default_scope order('last_name, first_name')
+  scope :available, where('volunteers.disabled = ?', false)
 
   def full_name
     [first_name, last_name].join(' ')
@@ -42,6 +43,15 @@ class Volunteer < ActiveRecord::Base
         "%#{full_name.split(' ').last}%"
       ]
     ).first
+  end
+
+  def disable
+    self.disabled = true
+    self.save
+    self.vol_group_relationships.each do |r|
+      r.disabled = true
+      r.save
+    end
   end
 
   def active_groups
@@ -64,7 +74,7 @@ class Volunteer < ActiveRecord::Base
   end
 
   def not_joined
-    Group.all - self.groups.where('vol_group_relationships.disabled != ?', true)
+    Group.available - self.groups.where('vol_group_relationships.disabled != ?', true)
   end
 
   def self.scheduled_for(group_id, year, month, day)

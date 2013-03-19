@@ -2,7 +2,14 @@ class GroupsController < ApplicationController
   before_filter :signed_in_user
   
   def create
-    @g = Group.new(params[:group])
+    @g = Group.find_by_name_and_disabled(params[:group][:name], true)
+    if @g.nil?
+      @g = Group.new(params[:group])
+    else
+      @g.email = params[:group][:email]
+      @g.disabled = false
+    end
+
     if @g.save
       flash.now[:success] = "Group #{@g.name} created."
       @group = Group.new()
@@ -32,7 +39,7 @@ class GroupsController < ApplicationController
 
   def destroy
     g = Group.find(params[:id])
-    g.destroy
+    g.disable
     flash[:success] = "Group #{g.name} removed."
     redirect_to groups_url
   end
@@ -53,7 +60,8 @@ class GroupsController < ApplicationController
       params[:volunteer_id], 
       params[:group_id]
     )
-    relationship.destroy
+    relationship.disabled = true
+    relationship.save
     redirect_to volunteers_group_url(params[:group_id])
   end
 
@@ -65,6 +73,6 @@ class GroupsController < ApplicationController
   end
 
   def pager
-    Group.paginate(page: params[:page], per_page: 10)
+    Group.available.paginate(page: params[:page], per_page: 10)
   end
 end

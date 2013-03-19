@@ -2,7 +2,7 @@ class ChangeLogController < ApplicationController
   before_filter :signed_in_user
 
   def index
-    @groups = Group.all
+    @groups = Group.available
     @last_sync = LastSync.get
   end
 

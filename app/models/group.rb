@@ -16,8 +16,10 @@ class Group < ActiveRecord::Base
         presence: true, 
         length: {maximum: 50}, 
         format: { with: VALID_EMAIL_REGEX }
+  validates_uniqueness_of :name
 
   default_scope order('name')
+  scope :available, where('groups.disabled = ?', false)
 
   def current_volunteer?(vol)
     !vol_group_relationships.where('volunteer_id = ?', vol.id).first.disabled
@@ -37,6 +39,15 @@ class Group < ActiveRecord::Base
     vol_group_relationships.find_by_volunteer_id(vol.id)
   end
 
+  def disable
+    self.disabled = true
+    self.save
+    self.vol_group_relationships.each do |r|
+      r.disabled = true
+      r.save
+    end
+  end
+
   def sunday_volunteers
     (year, month, day) = DateHelp.get_next_sunday
     scheduled_volunteers(year, month, day)
@@ -53,7 +64,7 @@ class Group < ActiveRecord::Base
   end
 
   def non_volunteers
-    Volunteer.all - self.volunteers
+    Volunteer.available - self.volunteers.where('vol_group_relationships.disabled != ?', true)
   end
 
   def clear_schedule(year, month, day)
