@@ -31,15 +31,15 @@ namespace :db do
       confirm   = ui.ask("Confirm password: ") { |q| q.echo = false }
       
       user = User.new(
-          fname: fname, 
-          lname: lname, 
+          first_name: fname, 
+          last_name: lname, 
           email: email, 
-          uname: uname, 
+          user_name: uname, 
           password: password, 
           password_confirmation: confirm
       )
-      if user.save false
-        puts "User account '#{login}' created."
+      if user.save 
+        puts "User account '#{uname}' created."
       else
         puts
         puts "Problem creating user account:"
