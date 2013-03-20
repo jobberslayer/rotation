@@ -102,7 +102,7 @@ namespace :db do
           vol = Volunteer.find_by_email(row[0].downcase)
           group = Group.find_by_name(row[1])
           puts "Trying #{row[0].downcase} into #{row[1]}"
-          vol.joined!(group)
+          vol.join!(group)
           if vol.save
             puts "imported #{row[0].downcase} to group #{row[1]}"
           else
