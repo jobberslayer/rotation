@@ -1,2 +1,61 @@
+<% provide(:title, "News") %>
 <h1>News</h1>
-<p>Find me in app/views/news/index.html.erb</p>
+<div class="hero-unit" style="padding: 20px;">
+  <h3>Welcome</h3>
+  Welcome to the new Franklin Street Rotation site.  If you have not done so please
+  go to <%= link_to 'Profile', profile_path%> and change your password. Also
+  please be sure to read the overview section below to help you understand what is
+  available on this site.  As always let an admin know if you have any questions.
+</div>
+<div class="hero-unit" style="padding: 20px;">
+  <h3>OverView</h3>
+  <ul>
+    <li><%= link_to 'Profile', profile_path %></li>
+    <ul>
+      <li>Update your email adress.</li>
+      <li>Change your password.</li>
+    </ul>
+    <li><%= link_to 'Volunteers', volunteers_path %></li>
+    <ul>
+      <li>Add volunteers.</li>
+      <li>Edit volunteer information</li>
+      <li>Add groups to volunteer</li>
+    </ul>
+    <li><%= link_to 'Groups', groups_path %></li>
+    <ul>
+      <li>Add groups.</li>
+      <li>Edit group information.</li>
+      <ul>
+        <li>Set if group has a Sunday rotation.</li>
+        <li>If it does supply a template for the weekly reminder emails.</li>
+      </ul>
+      <li>Add volunteers to group.</li>
+      <li>Export group volunteers list. <i>(should only be needed by admins)</i></li>
+    </ul>
+    <li><%= link_to 'Schedules', index_schedule_path %></li>
+    <ul>
+      <li>Check off which volunteers for that group are helping on the date.</li>
+    </ul>
+    <li><%= link_to 'Changes', index_change_log_path %></li>
+    <ul>
+      <li>Supplies changes that have been made since last sync with google mailing list.</li>
+      <li>Unfortuately this sync must happen manually.</li>
+      <li>Feel free to view this page but only click the Resync button if you are the
+      admin who did the manual sync.</li>
+      <ul>
+        <li><b>Current Admins:</b> <%= EMAIL_ADMINS %>.</li>
+      </ul>
+      <li>If you accidentally do click the Resync button please let an admin know.</li>
+    </ul>
+    <li>Sign in/out</li>
+    <ul>
+      <li>Currently timeout on session is 20 years.</li>
+      <li>This is for your convenience.</li>
+      <li>If you sign in on a computer that isn't yours, please sign out when you are done.</li>
+      <li>No mandatory password changes will be enforced.  Change your password as you feel lead to.</li>
+      <li>If you forget your password please let an admin know and we will give you a new one.</li>
+      <li>After logging in with your new password immediately change it in Profile.</li>
+      <li>Passwords are stored with a one way encryption. No one else, not even the admins, will know your password.</li>
+    </ul>
+  </ul>
+</div>
