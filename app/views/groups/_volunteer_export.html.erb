@@ -1,0 +1,8 @@
+<% vols = group.active_volunteers %>
+<% vols.to_enum.with_index(0) do |v, i| %>
+<% # need to print a line marker after every 20 since google will only let you import so many at a time %>
+<% if (i) % 20 == 0 %>
+-------------------------
+<%end%>
+<%= v.full_name %> &lt;<%= v.email %>&gt;<% unless i+1 == vols.size-1 or (i+1) % 20 == 0%>,<% end %>
+<% end %>

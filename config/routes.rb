@@ -21,6 +21,7 @@ Rotation::Application.routes.draw do
 
   match '/groups/:group_id/add_volunteer/:volunteer_id', to: 'groups#add_volunteer', :as => :add_volunteer_group
   match '/groups/:group_id/remove_volunteer/:volunteer_id', to: 'groups#remove_volunteer', :as => :remove_volunteer_group
+  match '/groups/:id/export', to: 'groups#export', as: :export_group;
 
   resources :sessions, only: [:new, :create, :destroy]
 

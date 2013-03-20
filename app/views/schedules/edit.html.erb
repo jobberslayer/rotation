@@ -1,3 +1,4 @@
+<% provide(:title, "Edit Schedules") %>
 <h3>Edit <%= @group.name %> volunteers for <%= @formal_date %></h3>
 <div>
   <%= form_tag update_schedule_path(@year, @month, @day, @group_id), method: 'post' do %>

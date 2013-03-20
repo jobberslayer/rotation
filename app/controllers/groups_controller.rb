@@ -72,7 +72,11 @@ class GroupsController < ApplicationController
     redirect_to volunteers_group_url(group.id)
   end
 
+  def export
+    @group = Group.find(params[:id])
+  end
+
   def pager
-    Group.available.paginate(page: params[:page], per_page: 10)
+    Group.available.paginate(page: params[:page], per_page: 20)
   end
 end
