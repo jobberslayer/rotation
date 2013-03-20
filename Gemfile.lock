@@ -49,6 +49,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.4.0)
+    daemons (1.0.10)
     diff-lcs (1.1.3)
     erubis (2.7.0)
     execjs (1.4.0)
@@ -59,6 +60,7 @@ GEM
       factory_girl (~> 4.2.0)
       railties (>= 3.0.0)
     ffi (1.3.1)
+    gem_plugin (0.2.3)
     highline (1.6.15)
     hike (1.2.1)
     i18n (0.6.1)
@@ -74,6 +76,9 @@ GEM
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
     mime-types (1.21)
+    mongrel (1.2.0.pre2)
+      daemons (~> 1.0.10)
+      gem_plugin (~> 0.2.3)
     multi_json (1.5.0)
     nokogiri (1.5.6)
     polyglot (0.3.3)
@@ -158,6 +163,7 @@ DEPENDENCIES
   highline
   jquery-rails
   launchy
+  mongrel (>= 1.2.0.pre2)
   rails (= 3.2.11)
   rspec-rails (= 2.11.0)
   sass-rails (~> 3.2.3)
