@@ -13,7 +13,8 @@ namespace :email do
       changes_made = false
       groups = Group.all
       groups.each do |g|
-        if !g.volunteers_changed_since(LastSync.get).empty?
+        if !g.volunteers_changed_since(LastSync.get.utc).empty?
+          puts "changes to #{g.name}"
           changes_made = true
           break
         end
