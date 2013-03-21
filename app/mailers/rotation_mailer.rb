@@ -23,6 +23,7 @@ class RotationMailer < ActionMailer::Base
 
     mail(
       to: email, 
+      reply_to: email,
       from: EMAIL_FROM,
       subject: "#{group.name} rotation reminder", 
       body: body.result(binding) 
