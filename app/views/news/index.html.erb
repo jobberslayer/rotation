@@ -1,18 +1,18 @@
 <% provide(:title, "News") %>
 <h1>News</h1>
-<div class="hero-unit" style="padding: 20px;">
-  <h3>Welcome</h3>
+<h3>Welcome</h3>
+<div class="hero-unit" style="padding: 15px;">
   Welcome to the new Franklin Street Rotation site.  If you have not done so please
   go to <%= link_to 'Profile', profile_path%> and change your password. Also
   please be sure to read the overview section below to help you understand what is
   available on this site.  As always let an admin know if you have any questions.
 </div>
-<div class="hero-unit" style="padding: 20px;">
-  <h3>OverView</h3>
+<h3>Overview</h3>
+<div class="hero-unit" style="padding: 15px;">
   <ul>
     <li><%= link_to 'Profile', profile_path %></li>
     <ul>
-      <li>Update your email adress.</li>
+      <li>Update your email address.</li>
       <li>Change your password.</li>
     </ul>
     <li><%= link_to 'Volunteers', volunteers_path %></li>
@@ -32,7 +32,7 @@
       <li>Add volunteers to group.</li>
       <li>Export group volunteers list. <i>(should only be needed by admins)</i></li>
     </ul>
-    <li><%= link_to 'Schedules', index_schedule_path %></li>
+    <li><%= link_to 'Schedule', index_schedule_path %></li>
     <ul>
       <li>Check off which volunteers for that group are helping on the date.</li>
     </ul>

@@ -1,11 +1,17 @@
 <% provide(:title, "Export Group") %>
 <h2><%= @group.name %> export</h2>
+<div class="hero-unit" style="padding: 15px;">
+  To do a full list import to the google mailing list 
+  (<%= link_to "Google Mailing List", 'http://google.com/a/franklinstreetchurch.org', target: 'blank' %>)
+  remove everyone from the google mailing list 
+  on the google interface and copy and paste this list into 
+  the google add new members section in the correct group section.
+  <br/><br/>
+  Google will only let you import a limited number at a time. The dash lines act as 
+  a marker to help you copy and paste in batches. 
+  Save and then do the same to the next batch until all have been saved.
+  Do not include them in your copy and paste.
+</div>
 <%= form_tag do %>
   <%= text_area_tag 'volunteers', render('volunteer_export', group: @group), class: "field span5", rows: 20, cols: 100, readonly: true%>
 <% end %>
-<pre>
-  Copy and paste into google groups to import new google mailing list after removing 
-  from a google group for a fresh start.
-  Google will only let you import a limited number at a time. The dash lines act as 
-  marker to help you copy and paste in batches.
-</pre>
