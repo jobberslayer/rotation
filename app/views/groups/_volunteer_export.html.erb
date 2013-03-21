@@ -4,5 +4,5 @@
 <% if (i) % 20 == 0 %>
 -------------------------
 <%end%>
-<%= v.full_name %> &lt;<%= v.email %>&gt;<% unless i+1 == vols.size-1 or (i+1) % 20 == 0%>,<% end %>
+<%= v.full_name %> &lt;<%= v.email %>&gt;<% unless i == vols.size-1 or (i+1) % 20 == 0%>,<% end %>
 <% end %>
