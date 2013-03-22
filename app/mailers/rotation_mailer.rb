@@ -10,7 +10,6 @@ class RotationMailer < ActionMailer::Base
   end
 
   def send_group_email(group, email)
-    exit if group.nil?
     (year, month, day) = DateHelp.get_next_sunday
 
     this_week = Formatters.date(year, month, day)
