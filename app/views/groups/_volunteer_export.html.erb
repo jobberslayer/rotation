@@ -1,4 +1,5 @@
 <% vols = group.active_volunteers %>
+<%= EMAIL_ALWAYS %>
 <% vols.to_enum.with_index(0) do |v, i| %>
 <% # need to print a line marker after every 20 since google will only let you import so many at a time %>
 <% if (i) % 20 == 0 %>
