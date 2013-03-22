@@ -15,6 +15,7 @@
 
 *.vim
 *.swp
+*.bak
 
 # Ignore all logfiles and tempfiles.
 /log/*.log
