@@ -9,8 +9,8 @@ class RotationMailer < ActionMailer::Base
     )
   end
 
-  def group_email(group)
-    email = EMAIL_TEST_ON ? EMAIL_TEST_ADDRESS : group.email
+  def send_group_email(group, email)
+    exit if group.nil?
     (year, month, day) = DateHelp.get_next_sunday
 
     this_week = Formatters.date(year, month, day)
@@ -28,6 +28,11 @@ class RotationMailer < ActionMailer::Base
       subject: "#{group.name} rotation reminder", 
       body: body.result(binding) 
     )
+  end
+
+  def group_email(group)
+    email = EMAIL_TEST_ON ? EMAIL_TEST_ADDRESS : group.email
+    send_group_email(group, email)
   end
 
   def changes_email

@@ -76,6 +76,13 @@ class GroupsController < ApplicationController
     @group = Group.find(params[:id])
   end
 
+  def test_email
+    @group = Group.find(params[:id])
+    RotationMailer.send_group_email(@group, current_user.email).deliver
+    flash[:success] = "Test email sent to #{current_user.email}."
+    redirect_to groups_path
+  end
+
   def pager
     Group.available.paginate(page: params[:page], per_page: 20)
   end
