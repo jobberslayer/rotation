@@ -6,6 +6,7 @@ gem 'bcrypt-ruby', '3.0.1'
 gem 'will_paginate'
 
 gem 'mongrel', '>= 1.2.0.pre2'
+gem 'jquery-rails'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
