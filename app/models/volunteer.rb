@@ -26,6 +26,8 @@ class Volunteer < ActiveRecord::Base
   default_scope order('last_name, first_name')
   scope :available, where('volunteers.disabled = ?', false)
 
+  scope :non_volunteers, lambda{|group| available.joins("LEFT JOIN vol_group_relationships on volunteers.id = vol_group_relationships.volunteer_id and vol_group_relationships.group_id = #{group.id}").where("vol_group_relationships.disabled is null or vol_group_relationships.disabled = 't'") }
+
   def full_name
     [first_name, last_name].join(' ')
   end

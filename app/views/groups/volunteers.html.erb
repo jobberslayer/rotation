@@ -1,7 +1,11 @@
 <% provide(:title, "Group Volunteers") %>
 <h1><%= @group.name %> &lt;<%= @group.email %>&gt;</h1>
-<div class="pull-left" style="width:45%;padding:5px;">
+<div id="active_volunteers" class="pull-left" style="width:45%;padding:5px;">
 <h3>Current Volunteers</h3>
+  <%= form_tag volunteers_group_path(@group), :method => 'get', :id => "volunteers_search" do %>
+    <%= text_field_tag :active_search, params[:active_search] %>
+    <%= hidden_field_tag :avail_search, params[:avail_search] %>
+  <% end %>
   <table class="group_table">
     <tr>
       <th>Name</th><th>Email</th><th></th>
@@ -14,9 +18,14 @@
       </tr>
     <% end %>
   </table>
+  <%= will_paginate @volunteers, param_name: 'active_page'%>
 </div>
 <div class="pull-right" style="width:45%">
   <h3>Available Volunteers</h3>
+  <%= form_tag volunteers_group_path(@group), :method => 'get', :id => "volunteers_search" do %>
+    <%= text_field_tag :avail_search, params[:avail_search] %><br>
+    <%= hidden_field_tag :active_search, params[:active_search] %>
+  <% end %>
   <table class="group_table">
     <tr>
       <th>Name</th><th>Email</th><th></th>
@@ -29,5 +38,6 @@
       </tr>
     <% end %>
   </table>
+  <%= will_paginate @unjoined, param_name: 'avail_page'%>
 </div>
 <div style="clear:both"></div>

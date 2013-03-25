@@ -63,9 +63,9 @@ class Group < ActiveRecord::Base
     Volunteer.scheduled_for(self.id, year, month, day)
   end
 
-  def non_volunteers
-    Volunteer.available - self.volunteers.where('vol_group_relationships.disabled != ?', true)
-  end
+  #def non_volunteers
+    #Volunteer.available - self.volunteers.where('vol_group_relationships.disabled != ?', true)
+  #end
 
   def clear_schedule(year, month, day)
     vgrs = VolGroupRelationship.joins(:schedules).where("vol_group_relationships.group_id" => self.id).where("schedules.when" => Date.new(year.to_i, month.to_i, day.to_i).strftime('%Y-%m-%d'))

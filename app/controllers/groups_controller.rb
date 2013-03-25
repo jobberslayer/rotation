@@ -51,8 +51,8 @@ class GroupsController < ApplicationController
 
   def volunteers
     @group = Group.find(params[:id])
-    @volunteers = @group.active_volunteers
-    @unjoined = @group.non_volunteers()
+    @volunteers = @group.active_volunteers.search(params[:active_search]).paginate(page: params[:active_page], per_page: 10)
+    @unjoined = Volunteer.non_volunteers(@group).search(params[:avail_search]).paginate(page: params[:avail_page], per_page: 10) 
   end
 
   def remove_volunteer
