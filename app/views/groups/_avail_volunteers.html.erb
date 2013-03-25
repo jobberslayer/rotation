@@ -1,0 +1,21 @@
+<script>
+$(function() {
+  $("#avail_volunteers .pagination a").on("click", function() {
+    $.getScript(this.href);
+    return false;
+  });
+})
+</script>
+<table class="group_table">
+  <tr>
+    <th>Name</th><th>Email</th><th></th>
+  </tr>
+  <% @unjoined.each do |v| %>
+    <tr class="<%= cycle("odd", "even") %>">
+      <td><%= v.full_name %></td>
+      <td><%= v.email %></td>
+      <td><%= link_to 'add', add_volunteer_group_path(@group.id, v.id) %></td> 
+    </tr>
+  <% end %>
+</table>
+<%= will_paginate @unjoined, param_name: 'avail_page'%>

@@ -19,4 +19,20 @@ $(function() {
     $.get($("#volunteers_search").attr("action"), $("#volunteers_search").serialize(), null, "script");
     return false;
   });
+
+  $("#active_volunteers_search input").keyup(function() {
+    $("#active_avail_search").val($("#avail_search").val())
+    act = $("#active_volunteers_search").serialize()
+
+    $.get($("#active_volunteers_search").attr("action"), act, null, "script");
+    return false;
+  });
+
+  $("#avail_volunteers_search input").keyup(function() {
+    $("#avail_active_search").val($("#active_search").val())
+    av = $("#avail_volunteers_search").serialize()
+
+    $.get($("#avail_volunteers_search").attr("action"), av, null, "script");
+    return false;
+  });
 });
