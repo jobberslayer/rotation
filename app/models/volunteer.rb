@@ -90,4 +90,13 @@ class Volunteer < ActiveRecord::Base
     end
   end
 
+  def self.search(search)
+    if search
+      where('first_name LIKE ? or last_name LIKE ? or email LIKE ?', 
+          "%#{search}%", "%#{search}%", "%#{search}%")
+    else
+      scoped
+    end
+  end
+
 end

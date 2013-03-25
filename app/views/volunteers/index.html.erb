@@ -3,24 +3,26 @@
   <div>
     <fieldset>
       <legend>Volunteers</legend>
-      <div>
-        <%= will_paginate %>
-        <table class="volunteer_table">
-          <tr>
-            <th>Name</th><th>Email</th><th></th><th></th><th></th>
-          </tr>
-          <%= render @volunteers %>
-        </table>
-        <%= will_paginate %>
-      </div>
+      <%= form_tag volunteers_path, :method => 'get', :id => "volunteers_search" do %>
+        <%= text_field_tag :search, params[:search] %><br>
+      <% end %>
+      <%= will_paginate %>
+      <table class="volunteer_table">
+        <tr><td>
+        <tr>
+          <th>Name</th><th>Email</th><th></th><th></th><th></th>
+        </tr>
+        <%= render @volunteers %>
+      </table>
+      <%= will_paginate %>
     </fieldset>
   </div>
+  <br/>
   <div>
     <%= form_for(@volunteer) do |v| %>
     <%=render 'shared/error_messages', obj: @volunteer%>
     <fieldset>
       <legend>Add Volunteer</legend>
-      <div class="span2">
         <%= v.label :first_name %>
         <%= v.text_field :first_name %>
 

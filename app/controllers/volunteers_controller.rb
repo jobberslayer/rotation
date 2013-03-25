@@ -73,6 +73,6 @@ class VolunteersController < ApplicationController
   end
 
   def pager
-    Volunteer.available.paginate(page: params[:page], per_page: 10)
+    Volunteer.available.search(params[:search]).paginate(page: params[:page], per_page: 10)
   end
 end
