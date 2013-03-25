@@ -1,3 +1,11 @@
+<script>
+$(function() {
+  $("#volunteers .pagination a").on("click", function() {
+    $.getScript(this.href);
+    return false;
+  });
+})
+</script>
 <%= will_paginate %>
 <table class="volunteer_table" width="100%">
 <tr><td>
