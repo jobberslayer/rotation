@@ -26,7 +26,7 @@ class Group < ActiveRecord::Base
   end
 
   def sign_up!(vol)
-    r = vol_group_relationships.find_by_group_id(group.id)
+    r = vol_group_relationships.find_by_volunteer_id(vol.id)
     if r.nil?
       vol_group_relationships.create!(volunteer_id: vol.id, disabled: 'f')
     else

@@ -71,8 +71,11 @@ class Volunteer < ActiveRecord::Base
   end
 
   def joined?(group)
-    vol_group_relationships.find_by_group_id(group.id).
-        where('vol_group_relationships.disabled != ?', true)
+    !vol_group_relationships.where(
+      'vol_group_relationships.group_id = ? AND 
+       vol_group_relationships.disabled = ?', 
+      group.id, false
+    ).empty?
   end
 
   def not_joined

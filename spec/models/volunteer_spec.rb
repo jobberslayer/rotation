@@ -111,7 +111,7 @@ describe Volunteer do
   describe "signed up for group" do
     let(:group) { FactoryGirl.create(:group) }
 
-    before { vol.joined!(group) }
+    before { vol.join!(group) }
 
     it { should be_joined(group) }
   end
