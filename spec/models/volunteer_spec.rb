@@ -1,119 +1,119 @@
 require 'spec_helper'
 
 describe Volunteer do
-  let(:vol) { FactoryGirl.create(:volunteer) }
+  describe "created empty" do 
 
-  subject {vol}
+    subject {Volunteer.new()}
 
-  it {should respond_to :first_name}
-  it {should respond_to :last_name}
-  it {should respond_to :email}
-  it {should respond_to :full_name}
-  it { should respond_to(:vol_group_relationships) }
+    it {should respond_to :first_name}
+    it {should respond_to :last_name}
+    it {should respond_to :email}
+    it {should respond_to :full_name}
+    it { should respond_to(:vol_group_relationships) }
 
-  it {should be_valid}
-
-  describe "when first_name is not present" do
-    before {vol.first_name = " " }
-    it {should_not be_valid}
-  end
-  describe "when last_name is not present" do
-    before {vol.last_name = " "}
-    it {should_not be_valid}
-  end
-  describe "when email is not present" do
-    before {vol.email = " "}
     it {should_not be_valid}
   end
 
-  describe "when fname is too long" do
-    before {vol.first_name = "a"*51}
-    it {should_not be_valid}
-  end
-  describe "when lname is too long" do
-    before {vol.last_name = "a"*51}
-    it {should_not be_valid}
-  end
-  describe "when email is too long" do
-    before {vol.email = "a"*51}
-    it {should_not be_valid}
-  end
+  describe "created with factory" do
+    subject {FactoryGirl.create(:volunteer) }
+    it {should be_valid}
 
-  describe "when email format is valid" do
-    it "should be valid" do
-      addresses = %w[me@example.com test@a.b.c.org me+thisguy@example.tv]
-      addresses.each do |address|
-        vol.email = address
-        vol.should be_valid
+    context "when first_name is not present" do
+      before { subject.first_name = " " }
+      it {should_not be_valid}
+    end
+    context "when last_name is not present" do
+      before {subject.last_name = " "}
+      it {should_not be_valid}
+    end
+    context "when email is not present" do
+      before {subject.email = " "}
+      it {should_not be_valid}
+    end
+    context "when fname is too long" do
+      before {subject.first_name = "a"*51}
+      it {should_not be_valid}
+    end
+    context "when lname is too long" do
+      before {subject.last_name = "a"*51}
+      it {should_not be_valid}
+    end
+    context "when email is too long" do
+      before {subject.email = "a"*51}
+      it {should_not be_valid}
+    end
+    context "when email format is correct" do
+      it "should be valid" do
+        addresses = %w[me@example.com test@a.b.c.org me+thisguy@example.tv]
+        addresses.each do |address|
+          subject.email = address
+          should be_valid
+        end
       end
     end
-  end
-  describe "when email format is invalid" do
-    it "should be invalid" do
-      addresses = %w[me@example,com test@a.b.c. vol@bad+address.tv]
-      addresses.each do |address|
-        vol.email = address
-        vol.should_not be_valid
+    context "when email format is incorrect" do
+      it "should be invalid" do
+        addresses = %w[me@example,com test@a.b.c. vol@bad+address.tv]
+        addresses.each do |address|
+          subject.email = address
+          should_not be_valid
+        end
       end
     end
-  end
-  describe "when email contains uppercase" do
-    before do
-      vol.email = "Me@Example.com"
-      vol.save      
-    end
-
-    it "should downcase email" do 
-      vol.email.should eq vol.email.downcase
-    end
-  end
-
-  describe "when full_name attribute is used to save" do
-    # if only one word name assumes it is the last name
-    describe "with 1 word name" do
+    context "when email contains uppercase" do
       before do
-        vol.full_name = "Last"
-        vol.save
+        subject.email = "Me@Example.com"
+        subject.save
       end
 
-      it {vol.first_name.should eq ''}
-      it {vol.last_name.should eq 'Last'}
-    end
-    describe "with 2 word name" do
-      before do
-        vol.full_name = "First Last"
-        vol.save
+      it "should downcase email" do 
+        subject.email.should eq subject.email.downcase
       end
-
-      it {vol.first_name.should eq 'First'}
-      it {vol.last_name.should eq 'Last'}
     end
-    describe "with 3 word name" do
-      before do
-        vol.full_name = "First Middle Last"
-        vol.save
+
+    context "reset using full_name" do
+      context "with 2 word name" do 
+        before do
+          subject.full_name = "First Last"
+          subject.save
+        end
+
+        its(:first_name) {should eq 'First'}
+        its(:last_name) {should eq 'Last'}
       end
+      context "with 3 word name" do
+        before do
+          subject.full_name = "First Middle Last"
+          subject.save
+        end
 
-      it {vol.first_name.should eq 'First Middle'}
-      it {vol.last_name.should eq 'Last'}
-    end
-    describe "with 4 word name" do
-      before do
-        vol.full_name = "First Middle Extra Last"
-        vol.save
+        its(:first_name) {should eq 'First Middle'}
+        its(:last_name)  {should eq 'Last'}
       end
+      context "with 4 word name" do
+        before do
+          subject.full_name = "First Middle Extra Last"
+          subject.save
+        end
 
-      it {vol.first_name.should eq 'First Middle Extra'}
-      it {vol.last_name.should eq 'Last'}
+        its(:first_name) {should eq 'First Middle Extra'}
+        its(:last_name)  {should eq 'Last'}
+      end
     end
+    context "find by" do
+      it "full_name" do 
+        vol_found = Volunteer.find_by_full_name(subject.first_name + " " + subject.last_name)
+        subject.first_name.should eq vol_found.first_name
+        subject.last_name.should eq vol_found.last_name
+      end
+    end
+    context "signed up for group" do
+      let(:group) { FactoryGirl.create(:group) }
+
+      before { subject.join!(group) }
+
+      it { should be_joined(group) }
+    end
+
   end
-
-  describe "signed up for group" do
-    let(:group) { FactoryGirl.create(:group) }
-
-    before { vol.join!(group) }
-
-    it { should be_joined(group) }
-  end
-
 end
