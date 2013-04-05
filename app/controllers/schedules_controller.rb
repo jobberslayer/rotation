@@ -43,12 +43,7 @@ class SchedulesController < ApplicationController
     
     params[:volunteer_ids] ||= []
     params[:volunteer_ids].each do |vol_id|
-      r = VolGroupRelationship.find_by_volunteer_id_and_group_id(vol_id, @group_id)
-      s = Schedule.new()
-      s.relationship_id = r.id
-      s.when = "#{@year}-#{@month}-#{@day}"
-      if s.save
-      #if Schedule.for_service(vol_id, @group_id, @year, @month, @day)
+      if Schedule.for_service(vol_id, @group_id, @year, @month, @day)
       else
         flash[:error] = s.errors.full_messages
         redirect_to edit(@year, @month, @day, @group_id)
