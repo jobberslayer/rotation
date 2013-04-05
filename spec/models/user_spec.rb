@@ -1,16 +1,7 @@
 require 'spec_helper'
 
 describe User do
-  let(:user) { User.new(
-      first_name: "Me", 
-      last_name: "Thisguy", 
-      user_name: "me", 
-      email:"me@example.com",
-      password: "foobar", 
-      password_confirmation: "foobar"
-  ) }
-
-  subject {user}
+  subject {FactoryGirl.create(:user)}
 
   it { should respond_to(:first_name) }
   it { should respond_to(:last_name) }
@@ -25,41 +16,41 @@ describe User do
   it {should be_valid}
 
   describe "remember token" do
-    before { user.save }
+    before { subject.save }
     its(:remember_token) { should_not be_blank }
   end
 
   describe "when fname is not present" do
-    before {user.first_name = " " }
+    before {subject.first_name = " " }
     it {should_not be_valid}
   end
   describe "when lname is not present" do
-    before {user.last_name = " "}
+    before {subject.last_name = " "}
     it {should_not be_valid}
   end
   describe "when user_name is not present" do
-    before {user.user_name = " "}
+    before {subject.user_name = " "}
     it {should_not be_valid}
   end
   describe "when email is not present" do
-    before {user.email = " "}
+    before {subject.email = " "}
     it {should_not be_valid}
   end
 
   describe "when fname is too long" do
-    before {user.first_name = "a"*51}
+    before {subject.first_name = "a"*51}
     it {should_not be_valid}
   end
   describe "when lname is too long" do
-    before {user.last_name = "a"*51}
+    before {subject.last_name = "a"*51}
     it {should_not be_valid}
   end
   describe "when user_name is too long" do
-    before {user.user_name = "a"*51}
+    before {subject.user_name = "a"*51}
     it {should_not be_valid}
   end
   describe "when email is too long" do
-    before {user.email = "a"*51}
+    before {subject.email = "a"*51}
     it {should_not be_valid}
   end
 
@@ -67,8 +58,8 @@ describe User do
     it "should be valid" do
       addresses = %w[me@example.com test@a.b.c.org me+thisguy@example.tv]
       addresses.each do |address|
-        user.email = address
-        user.should be_valid
+        subject.email = address
+        should be_valid
       end
     end
   end
@@ -76,63 +67,64 @@ describe User do
     it "should be invalid" do
       addresses = %w[me@example,com test@a.b.c. user@bad+address.tv]
       addresses.each do |address|
-        user.email = address
-        user.should_not be_valid
+        subject.email = address
+        should_not be_valid
       end
     end
   end
 
   describe "when user with same user_name" do
+    let(:dup_user) { subject.dup }
+
     before do
-      user_with_same_user_name = user.dup
-      user_with_same_user_name.user_name = user.user_name.upcase
-      user_with_same_user_name.save
+      dup_user.user_name = subject.user_name.upcase
+      dup_user.save
     end
 
-    it { should_not be_valid }
+    it { dup_user.should_not be_valid }
 
   end
 
   describe "when email contains uppercase" do
     before do
-      user.email = "Me@Example.com"
-      user.save      
+      subject.email = "Me@Example.com"
+      subject.save      
     end
 
     it "should downcase email" do 
-      user.email.should eq user.email.downcase
+      subject.email.should eq subject.email.downcase
     end
   end
   describe "when user_name contains uppercase" do
     before do
-      user.user_name = "Me"
-      user.save      
+      subject.user_name = "Me"
+      subject.save      
     end
 
     it "should downcase user_name" do
-      user.user_name.should eq user.user_name.downcase
+      subject.user_name.should eq subject.user_name.downcase
     end
   end
 
   describe "when password is not present" do
-    before { user.password = user.password_confirmation = " " }
+    before { subject.password = subject.password_confirmation = " " }
     it { should_not be_valid }
   end
   describe "when password doesn't match confirmation" do
-    before { user.password_confirmation = "mismatch" }
+    before { subject.password_confirmation = "mismatch" }
     it { should_not be_valid }
   end
   describe "when password confirmation is nil" do
-    before { user.password_confirmation = nil }
+    before { subject.password_confirmation = nil }
     it { should_not be_valid }
   end
 
   describe "return value of authenticate method" do
-    before { user.save }
-    let(:found_user) { User.find_by_email(user.email) }
+    before { subject.save }
+    let(:found_user) { User.find_by_email(subject.email) }
 
     describe "with valid password" do
-      it { should == found_user.authenticate(user.password) }
+      it { should == found_user.authenticate(subject.password) }
     end
 
     describe "with invalid password" do
@@ -147,39 +139,39 @@ describe User do
     # if only one word name assumes it is the last name
     describe "with 1 word name" do
       before do
-        user.full_name = "Last"
-        user.save
+        subject.full_name = "Last"
+        subject.save
       end
 
-      it {user.first_name.should eq ''}
-      it {user.last_name.should eq 'Last'}
+      its(:first_name) {should eq ''}
+      its(:last_name) {should eq 'Last'}
     end
     describe "with 2 word name" do
       before do
-        user.full_name = "First Last"
-        user.save
+        subject.full_name = "First Last"
+        subject.save
       end
 
-      it {user.first_name.should eq 'First'}
-      it {user.last_name.should eq 'Last'}
+      its(:first_name) {should eq 'First'}
+      its(:last_name) {should eq 'Last'}
     end
     describe "with 3 word name" do
       before do
-        user.full_name = "First Middle Last"
-        user.save
+        subject.full_name = "First Middle Last"
+        subject.save
       end
 
-      it {user.first_name.should eq 'First Middle'}
-      it {user.last_name.should eq 'Last'}
+      its(:first_name) {should eq 'First Middle'}
+      its(:last_name)  {should eq 'Last'}
     end
     describe "with 4 word name" do
       before do
-        user.full_name = "First Middle Extra Last"
-        user.save
+        subject.full_name = "First Middle Extra Last"
+        subject.save
       end
 
-      it {user.first_name.should eq 'First Middle Extra'}
-      it {user.last_name.should eq 'Last'}
+      its(:first_name) {should eq 'First Middle Extra'}
+      its(:last_name) {should eq 'Last'}
     end
   end
 end
