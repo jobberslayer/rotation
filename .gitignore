@@ -16,7 +16,7 @@
 *.vim
 *.swp
 *.bak
-*.lock
+Gemfile.lock
 
 # Ignore all logfiles and tempfiles.
 /log/*.log
