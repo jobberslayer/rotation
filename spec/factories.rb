@@ -9,7 +9,8 @@ FactoryGirl.define do
     user_name             user_name
     email                 email
     password              "foobar"
-    password_confirmation "foobar"
+    #incase we pass in custom password
+    password_confirmation { |u| u.password }
   end
 
   first_name = Faker::Name.first_name
