@@ -1,32 +1,22 @@
 FactoryGirl.define do
-  first_name = Faker::Name.first_name
-  last_name = Faker::Name.last_name
-  email     = Faker::Internet.email "#{first_name} #{last_name}"
-  user_name = Faker::Internet.user_name "#{first_name} #{last_name}"
   factory :user do
-    first_name            first_name
-    last_name             last_name
-    user_name             user_name
-    email                 email
+    first_name            "A."
+    last_name             "User"
+    sequence(:user_name)  { |n| "user#{n}" }
+    sequence(:email)      { |n| "user#{n}@example.com" }
     password              "foobar"
     #incase we pass in custom password
     password_confirmation { |u| u.password }
   end
 
-  first_name = Faker::Name.first_name
-  last_name  = Faker::Name.last_name
-  email      = Faker::Internet.email "#{first_name} #{last_name}" 
   factory :volunteer do
-    first_name  first_name
-    last_name   last_name
-    email       email
+    sequence(:first_name)  { |n| "fname#{n}" }
+    sequence(:last_name)   { |n| "lname#{n}" }
+    sequence(:email)       { |n| "volunteer#{n}@example.com" }
   end
 
-  last_name  = Faker::Name.last_name
-  group_name = "#{last_name}'s Group"
-  email      = Faker::Internet.email "#{last_name} Group"
   factory :group do
-    name   group_name 
-    email  "greeters@example.com"
+    sequence(:name)   { |n| "Group #{n}" } 
+    sequence(:email)  { |n| "group#{n}@example.com" }
   end
 end
