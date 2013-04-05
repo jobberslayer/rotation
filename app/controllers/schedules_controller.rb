@@ -16,7 +16,7 @@ class SchedulesController < ApplicationController
     (@prev_year, @prev_month, @prev_day) = DateHelp.previous_week(@year, @month, @day)
     (@next_year, @next_month, @next_day) = DateHelp.next_week(@year, @month, @day)
 
-    @rotations = Group.where(rotation: true)
+    @rotations = Group.available.where(rotation: true)
   end
 
   def edit
@@ -39,8 +39,6 @@ class SchedulesController < ApplicationController
     @group_id = params[:group_id]
     @group = Group.find(@group_id)
 
-    @volunteers_serving = Volunteer.scheduled_for(@group_id, @year, @month, @day)
-    
     @group.clear_schedule(@year, @month, @day)
     
     params[:volunteer_ids] ||= []
@@ -50,6 +48,7 @@ class SchedulesController < ApplicationController
       s.relationship_id = r.id
       s.when = "#{@year}-#{@month}-#{@day}"
       if s.save
+      #if Schedule.for_service(vol_id, @group_id, @year, @month, @day)
       else
         flash[:error] = s.errors.full_messages
         redirect_to edit(@year, @month, @day, @group_id)
