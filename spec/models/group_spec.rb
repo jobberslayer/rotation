@@ -1,72 +1,76 @@
 require 'spec_helper'
 
 describe Group do
-  let(:group) { FactoryGirl.create(:group) }
+  describe "created with empty" do
+    subject {Group.new}
 
-  subject {group}
+    it {should respond_to :name}
+    it {should respond_to :email}
+    it {should respond_to :rotation}
+    it {should respond_to :email_body}
+    it {should_not be_rotation}
 
-  it {should respond_to :name}
-  it {should respond_to :email}
-  it {should respond_to :rotation}
-  it {should respond_to :email_body}
-  it {should_not be_rotation}
-
-  it {should be_valid}
-
-  describe "when rotation set to true" do
-    before do
-      group.save!
-      group.toggle!(:rotation)
-    end
-
-    it {should be_rotation}
-  end
-
-  describe "when first_name is not present" do
-    before {group.name = " " }
     it {should_not be_valid}
   end
 
-  describe "when email is not present" do
-    before {group.email = " "}
-    it {should_not be_valid}
-  end
+  describe "created with factory" do
+    subject { FactoryGirl.create(:group) }
 
-  describe "when email format is valid" do
-    it "should be valid" do
-      addresses = %w[me@example.com test@a.b.c.org me+thisguy@example.tv]
-      addresses.each do |address|
-        group.email = address
-        group.should be_valid
+    it {should be_valid}
+
+    context "when rotation set to true" do
+      before do
+        subject.save!
+        subject.toggle!(:rotation)
+      end
+
+      it {should be_rotation}
+    end
+
+    context "when name is not present" do
+      before {subject.name = " " }
+      it {should_not be_valid}
+    end
+
+    context "when email is not present" do
+      before {subject.email = " "}
+      it {should_not be_valid}
+    end
+
+    context "when email format is valid" do
+      it "should be valid" do
+        addresses = %w[me@example.com test@a.b.c.org me+thisguy@example.tv]
+        addresses.each do |address|
+          subject.email = address
+          should be_valid
+        end
       end
     end
-  end
-  describe "when email format is invalid" do
-    it "should be invalid" do
-      addresses = %w[me@example,com test@a.b.c. group@bad+address.tv]
-      addresses.each do |address|
-        group.email = address
-        group.should_not be_valid
+    context "when email format is invalid" do
+      it "should be invalid" do
+        addresses = %w[me@example,com test@a.b.c. group@bad+address.tv]
+        addresses.each do |address|
+          subject.email = address
+          should_not be_valid
+        end
       end
     end
-  end
-  describe "when email contains uppercase" do
-    before do
-      group.email = "Me@Example.com"
-      group.save      
+    context "when email contains uppercase" do
+      before do
+        subject.email = "Me@Example.com"
+        subject.save      
+      end
+      it "should downcase email" do 
+        subject.email.should eq subject.email.downcase
+      end
     end
-    it "should downcase email" do 
-      group.email.should eq group.email.downcase
+
+    context "added volunteer" do
+      let(:vol) { FactoryGirl.create(:volunteer) }
+
+      before { subject.sign_up!(vol) }
+
+      it { should be_signed_up(vol) }
     end
-  end
-
-  describe ""
-
-  describe "added volunteer" do
-    let(:vol) { FactoryGirl.create(:volunteer) }
-
-    before { group.sign_up!(vol) }
-
-    it { should be_signed_up(vol) }
   end
 end
