@@ -43,7 +43,7 @@ class SchedulesController < ApplicationController
     
     params[:volunteer_ids] ||= []
     params[:volunteer_ids].each do |vol_id|
-      if Schedule.for_service(vol_id, @group_id, @year, @month, @day)
+      if Schedule.for_service_by_id(vol_id, @group_id, @year, @month, @day)
       else
         flash[:error] = s.errors.full_messages
         redirect_to edit(@year, @month, @day, @group_id)
