@@ -3,7 +3,7 @@ class Schedule < ActiveRecord::Base
 
   belongs_to :vol_group_relationship, class_name: "VolGroupRelationship"
 
-  def self.for_service_by_id(volunteer, group, year, month, day)
+  def self.for_service(volunteer, group, year, month, day)
     self.for_service_by_id(volunteer.id, group.id, year, month, day)
   end
 
