@@ -16,8 +16,7 @@ describe Group do
   describe "created with factory" do
     subject { FactoryGirl.create(:group) }
 
-    it {should be_valid}
-
+    it {should be_valid} 
     context "when rotation set to true" do
       before do
         subject.save!
@@ -71,6 +70,26 @@ describe Group do
       before { subject.sign_up!(vol) }
 
       it { should be_signed_up(vol) }
+    end
+
+    context "find sunday volunteers" do
+      let(:group_with_vol) {FactoryGirl.create(:group_with_scheduled_volunteer_sunday)}
+      it { group_with_vol.sunday_volunteers.size.should eq 1 }
+      it { group_with_vol.next_sunday_volunteers.size.should eq 0 }
+    end
+
+    context "find next sunday volunteers" do
+      let(:group_with_vol) {FactoryGirl.create(:group_with_scheduled_volunteer_next_sunday)}
+      it { group_with_vol.next_sunday_volunteers.size.should eq 1 }
+      it { group_with_vol.sunday_volunteers.size.should eq 0 }
+    end
+
+    context "find volunteers scheduled for today" do
+      let(:group_with_vol) do
+        year, month, day = DateHelp.today
+        FactoryGirl.create(:group_with_scheduled_for, year: year, month: month, day: day)
+      end
+      it { group_with_vol.scheduled_volunteers(*DateHelp.today).size.should eq 1 }
     end
   end
 end
