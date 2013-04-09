@@ -56,12 +56,9 @@ class GroupsController < ApplicationController
   end
 
   def remove_volunteer
-    relationship = VolGroupRelationship.find_by_volunteer_id_and_group_id(
-      params[:volunteer_id], 
-      params[:group_id]
-    )
-    relationship.disabled = true
-    relationship.save
+    vol = Volunteer.find(params[:volunteer_id])
+    group = Group.find(params[:group_id])
+    group.bench!(vol)
     redirect_to volunteers_group_url(params[:group_id])
   end
 
