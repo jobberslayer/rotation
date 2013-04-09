@@ -91,5 +91,60 @@ describe Group do
       end
       it { group_with_vol.scheduled_volunteers(*DateHelp.today).size.should eq 1 }
     end
+
+    context "clear out the scedule" do
+      let(:group_with_vol) do
+        year, month, day = DateHelp.today
+        FactoryGirl.create(:group_with_scheduled_for, year: year, month: month, day: day)
+      end
+      before { group_with_vol.clear_schedule(*DateHelp.today) }
+      it { group_with_vol.scheduled_volunteers(*DateHelp.today).size.should eq 0 }
+    end
+
+    context "bench volunteer" do
+      let(:vol) { FactoryGirl.create(:volunteer) }
+      before do
+        subject.sign_up!(vol)
+        subject.bench!(vol)
+      end
+      let(:relation) { VolGroupRelationship.find_by_group_id_and_volunteer_id(subject.id, vol.id) }
+      
+      it { should_not be_signed_up(vol) }
+      it { relation.should be_disabled } 
+    end
+
+    context "find active volunteer" do
+      let(:vol1) { FactoryGirl.create(:volunteer) }
+      let(:vol2) { FactoryGirl.create(:volunteer) }
+
+      before do
+        subject.sign_up!(vol1)
+        subject.sign_up!(vol2)
+        subject.bench!(vol1)
+      end
+
+      it { subject.active_volunteers.size.should eq 1 }
+    end
+
+    context "disable" do 
+      let(:vol) { FactoryGirl.create(:volunteer) }
+      before do
+        subject.sign_up!(vol)
+        subject.disable
+      end
+
+      it { subject.should be_disabled }
+      it { subject.active_volunteers.size.should eq 0 }
+    end
+
+    context "volunteers changed since" do
+      let(:vol) { FactoryGirl.create(:volunteer) }
+      before do
+        subject.sign_up!(vol)
+      end 
+
+      it { subject.volunteers_changed_since((DateTime.now - 1.second).utc).size.should eq 1 }
+      it { subject.volunteers_changed_since((DateTime.now + 1.second).utc).size.should eq 0 }
+    end
   end
 end
