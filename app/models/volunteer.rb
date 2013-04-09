@@ -70,6 +70,12 @@ class Volunteer < ActiveRecord::Base
     end        
   end
 
+  def leave!(group)
+    relationship = VolGroupRelationship.find_by_volunteer_id_and_group_id(self.id, group.id)
+    relationship.disabled = true
+    relationship.save
+  end
+
   def joined?(group)
     !vol_group_relationships.where(
       'vol_group_relationships.group_id = ? AND 
@@ -84,15 +90,6 @@ class Volunteer < ActiveRecord::Base
 
   def self.scheduled_for(group_id, year, month, day)
     self.joins(:schedules).where("vol_group_relationships.group_id" => group_id).where("schedules.when" => Date.new(year.to_i, month.to_i, day.to_i).strftime('%Y-%m-%d'))
-  end
-
-  def scheduled_for?(group_id, year, month, day)
-    vgr = VolGroupRelationship.find_by_group_id_and_volunteer_id(group_id, self.id)
-    if vgr
-      return vgr.scheduled?(year, month, day)
-    else
-      return false
-    end
   end
 
   def self.search(search)

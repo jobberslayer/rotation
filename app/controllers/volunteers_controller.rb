@@ -56,12 +56,10 @@ class VolunteersController < ApplicationController
   end
 
   def leave_group
-    relationship = VolGroupRelationship.find_by_volunteer_id_and_group_id(
-      params[:volunteer_id], 
-      params[:group_id]
-    )
-    relationship.disabled = true
-    relationship.save
+    group = Group.find(params[:group_id])
+    vol = Volunteer.find(params[:volunteer_id])
+
+    vol.leave!(group)
     redirect_to groups_volunteer_url(params[:volunteer_id])
   end
 
