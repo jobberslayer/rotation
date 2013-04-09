@@ -14,6 +14,19 @@ FactoryGirl.define do
     sequence(:last_name)   { |n| "lname#{n}" }
     sequence(:email)       { |n| "volunteer#{n}@example.com" }
 
+    ignore do
+      year '2000'
+      month '01' 
+      day   '02'
+    end
+    factory :volunteer_scheduled_for_group do
+      after(:create) do |vol, e|
+        group = FactoryGirl.create(:group)
+        vol.groups << group 
+        year, month, day = DateHelp.get_next_sunday
+        Schedule.for_service_by_id(vol.id, group.id, e.year, e.month, e.day)
+      end
+    end
   end
 
   factory :group do
@@ -24,7 +37,7 @@ FactoryGirl.define do
       after(:create) do |group|
         vol = FactoryGirl.create(:volunteer)
         group.volunteers << vol 
-        (year, month, day) = DateHelp.get_next_sunday
+        year, month, day = DateHelp.get_next_sunday
         Schedule.for_service_by_id(vol.id, group.id, year, month, day)
       end
     end
