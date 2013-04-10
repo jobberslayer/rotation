@@ -168,7 +168,7 @@ describe Volunteer do
     
   end
 
-  context "search " do
+  context "search" do
     let(:vol1) { FactoryGirl.create(:volunteer, first_name: 'Will', last_name: 'Whetton', email: 'willwhetton@example.com') }
     let(:vol2) { FactoryGirl.create(:volunteer, first_name: 'William', last_name: 'Tell', email: 'willtell@example.com') }
     let(:vol3) { FactoryGirl.create(:volunteer, first_name: 'Bill', last_name: 'Whetton', email: 'billwhetton@example.com') }
