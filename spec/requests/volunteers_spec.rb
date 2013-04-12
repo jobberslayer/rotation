@@ -78,7 +78,7 @@ describe "Volunteers" do
       changed_vol = Volunteer.find(volunteer.id)
       changed_vol.first_name = "#{volunteer.first_name}_changed"
       changed_vol.last_name = "#{volunteer.last_name}_changed"
-      page.find('.alert.alert-success').text.should eq "Volunteer #{changed_vol.full_name} updated."
+      page.should have_success_message "Volunteer #{changed_vol.full_name} updated."
       page.find('table/tr[2]/td[1]').text.should eq changed_vol.full_name 
     end
   end
@@ -99,22 +99,72 @@ describe "Volunteers" do
       find('h1').text.should eq "#{volunteer.full_name} <#{volunteer.email}>"
       page.should have_selector('h3', text: 'Current Groups')
       page.should have_selector('h3', text: 'Available Groups')
-      find('table/tr[1]/th[1]').text.should eq 'Name'
-      find('table/tr[1]/th[2]').text.should eq 'Email'
-      find('table/tr[1]/th[3]').text.should eq ''
-      find('table/tr[1]/th[3]').text.should eq ''
-      page.should have_no_selector('table/tr[1]/th[4]')
 
-      find('table/tr[2]/td[1]').text.should eq volunteer.groups.first.name
-      find('table/tr[2]/td[2]').text.should eq volunteer.groups.first.email
+      find('#current_groups/table/tr[1]/th[1]').text.should eq 'Name'
+      find('#current_groups/table/tr[1]/th[2]').text.should eq 'Email'
+      find('#current_groups/table/tr[1]/th[3]').text.should eq ''
+      find('#current_groups/table/tr[1]/th[3]').text.should eq ''
+      page.should have_no_selector('#current_groups/table/tr[1]/th[4]')
+
+      find('#current_groups/table/tr[2]/td[1]').text.should eq volunteer.groups.first.name
+      find('#current_groups/table/tr[2]/td[2]').text.should eq volunteer.groups.first.email
+      find('#current_groups/table/tr[2]/td[3]').text.should eq 'leave'
+
+      find('#available_groups/table/tr[1]/th[1]').text.should eq 'Name'
+      find('#available_groups/table/tr[1]/th[2]').text.should eq 'Email'
+      find('#available_groups/table/tr[1]/th[3]').text.should eq ''
+      find('#available_groups/table/tr[1]/th[3]').text.should eq ''
+      page.should have_no_selector('#available_groups/table/tr[1]/th[4]')
+
+      find('#available_groups/table/tr[2]/td[1]').text.should eq group_not_in.name
+      find('#available_groups/table/tr[2]/td[2]').text.should eq group_not_in.email
+      find('#available_groups/table/tr[2]/td[3]').text.should eq 'add'
     end
+  end
+
+  describe "adding a group" do
+    let!(:volunteer) { FactoryGirl.create(:volunteer_with_group) }
+    let!(:group_not_in) { FactoryGirl.create(:group) } 
+
+    before { visit groups_volunteer_path(volunteer.id) }
+
+    it "join group" do
+      add_link = find('#available_groups/table/tr[2]/td[3]/a')
+      add_link.text.should eq 'add'
+      add_link[:href].should eq join_group_volunteer_path(volunteer.id, group_not_in.id)
+      volunteer.active_groups.should_not include(group_not_in)
+      add_link.click
+      page.should have_success_message "#{volunteer.full_name} added to #{group_not_in.name}."
+      updated_vol = Volunteer.find(volunteer.id)
+      updated_vol.active_groups.should include(group_not_in)
+      page.should have_selector('#current_groups table tr', count: 3)
+      page.should have_selector('#available_groups table tr', count: 1)
+    end
+  end
+
+  describe "leaving a group" do
+    let!(:volunteer) { FactoryGirl.create(:volunteer_with_group) }
+    let!(:group) { volunteer.groups.first }
+
+    before { visit groups_volunteer_path(volunteer.id) }
+    
+    it "leave group" do
+      leave_link = find('#current_groups/table/tr[2]/td[3]/a')
+      leave_link.text.should eq 'leave'
+      leave_link[:href].should eq leave_group_volunteer_path(volunteer.id, group)
+      leave_link.click
+      page.should have_success_message "#{volunteer.full_name} removed from #{group.name}"
+      updated_vol = Volunteer.find(volunteer.id)
+      updated_vol.active_groups.should_not include(group)
+      page.should have_selector('#current_groups table tr', count: 1)
+      page.should have_selector('#available_groups table tr', count: 2)
+    end
+
   end
 
   describe "removing volunteer" do
     let!(:volunteer) { FactoryGirl.create(:volunteer) }
-    before do
-      visit volunteers_url
-    end
+    before { visit volunteers_url }
 
     it "click remove" do
       remove_link = find('table/tr[2]/td[5]/a')
@@ -122,6 +172,8 @@ describe "Volunteers" do
       remove_link['data-method'].should eq 'delete'
       remove_link.click
       Volunteer.find(volunteer.id).should be_disabled
+      find('table/tr[2]/td[1]').text.should eq 'No Volunteers'
+      page.should have_success_message "#{volunteer.full_name} removed."
     end
   end
 end
