@@ -27,6 +27,12 @@ FactoryGirl.define do
         Schedule.for_service_by_id(vol.id, group.id, e.year, e.month, e.day)
       end
     end
+    factory :volunteer_with_group do
+      after(:create) do |vol|
+        group = FactoryGirl.create(:group)
+        vol.groups << group 
+      end
+    end
   end
 
   factory :group do
