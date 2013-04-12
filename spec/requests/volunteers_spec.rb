@@ -12,6 +12,13 @@ describe "Volunteers" do
     it { subject.status_code.should be(200) }
     it { find('title').text.should eq full_title('Volunteers') }
 
+    context "add form" do
+      it { should have_selector('#volunteer_first_name') }
+      it { should have_selector('#volunteer_last_name') }
+      it { should have_selector('#volunteer_email') }
+      it { should have_selector('input', type: 'submit', name: 'commit', value: 'Add Volunteer') }
+    end
+
     context "with no volunteers" do
       it { should have_selector('table tr', count: 2) }
       it { find('table/tr[1]/th[1]').text.should eq 'Name' }
@@ -174,6 +181,38 @@ describe "Volunteers" do
       Volunteer.find(volunteer.id).should be_disabled
       find('table/tr[2]/td[1]').text.should eq 'No Volunteers'
       page.should have_success_message "#{volunteer.full_name} removed."
+    end
+  end
+
+  describe "add volunteer" do
+    before { visit volunteers_url }
+
+    it "with empty data" do
+      click_button 'Add Volunteer'
+      page.should have_error_message "See errors below."
+      page.should have_error_message "First name can't be blank"
+      page.should have_error_message "Last name can't be blank"
+      page.should have_error_message "Email can't be blank"
+      page.should have_error_message "Email is invalid"
+    end
+
+    it "with bad email" do
+      fill_in 'First name', with: 'Testy'
+      fill_in 'Last name', with: 'McTester'
+      fill_in 'Email', with: 'tmctester@example.'
+      click_button 'Add Volunteer'
+      page.should have_error_message "See errors below."
+      page.should have_error_message "Email is invalid"
+    end
+
+    it "with valid data" do
+      fill_in 'First name', with: 'Testy'
+      fill_in 'Last name', with: 'McTester'
+      fill_in 'Email', with: 'tmctester@example.com'
+      click_button 'Add Volunteer'
+      page.should have_success_message "Volunteer Testy McTester created."
+      vol = Volunteer.find_by_email('tmctester@example.com')
+      find('table/tr[2]/td[1]').text.should eq vol.full_name 
     end
   end
 end
