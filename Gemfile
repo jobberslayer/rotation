@@ -23,6 +23,7 @@ group :test do
   gem 'factory_girl_rails'
   gem 'launchy'
   gem 'faker', '1.0.1'
+  gem 'guard-rspec'
 end
 
 
