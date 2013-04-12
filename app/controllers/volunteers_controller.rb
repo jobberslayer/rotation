@@ -60,6 +60,7 @@ class VolunteersController < ApplicationController
     vol = Volunteer.find(params[:volunteer_id])
 
     vol.leave!(group)
+    flash[:success] = "#{vol.full_name} removed from #{group.name}."
     redirect_to groups_volunteer_url(params[:volunteer_id])
   end
 
@@ -67,6 +68,7 @@ class VolunteersController < ApplicationController
     vol = Volunteer.find(params[:volunteer_id])
     group = Group.find(params[:group_id])
     vol.join!(group)    
+    flash[:success] = "#{vol.full_name} added to #{group.name}."
     redirect_to groups_volunteer_url(vol.id)
   end
 
