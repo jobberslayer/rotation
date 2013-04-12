@@ -14,6 +14,7 @@ class VolunteersController < ApplicationController
       flash.now[:success] = "Volunteer #{@vol.full_name} created."
       @volunteer = Volunteer.new()
     else
+      flash.now[:error] = "See errors below."
       @volunteer = @vol
     end
 
