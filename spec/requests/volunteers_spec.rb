@@ -2,9 +2,9 @@ require 'spec_helper'
 include ApplicationHelper
 
 describe "Volunteers" do
-  describe "redirects if not logged in" do
+  describe "get while not logged in" do
     before { visit volunteers_url }
-    it { page.should redirect_to_sigin }
+    it { page.should redirect_to_signin }
   end
 end
 
@@ -13,11 +13,11 @@ describe "Volunteers" do
   let(:user) { FactoryGirl.create(:user) }
   before { sign_in user }  
 
-  describe "GET /volunteers" do
+  describe "root" do
     before { visit volunteers_url }
 
     subject {page}
-    it { should_not redirect_to_sigin }
+    it { should_not redirect_to_signin }
     it { subject.status_code.should be(200) }
     it { find('title').text.should eq full_title('Volunteers') }
 

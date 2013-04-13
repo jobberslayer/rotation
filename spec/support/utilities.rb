@@ -13,7 +13,7 @@ def sign_in(user)
   cookies[:remember_token] = user.remember_token
 end
 
-RSpec::Matchers.define :redirect_to_sigin do
+RSpec::Matchers.define :redirect_to_signin do
   match do |page|
     current_path.should eq signin_path
     page.should have_notice_message "Please sign in."
