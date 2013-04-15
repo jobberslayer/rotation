@@ -32,11 +32,25 @@ RSpec::Matchers.define :have_error_message do |message|
   match do |page|
     page.should have_selector('div.alert.alert-error', text: message)
   end
+  failure_message_for_should do |obj|
+    alert_fail_message(obj, message, 'error', false)
+  end
+
+  failure_message_for_should_not do |obj|
+    alert_fail_message(obj, message, 'error', true)
+  end
 end
 
 RSpec::Matchers.define :have_success_message do |message|
   match do |page|
     page.should have_selector('div.alert.alert-success', text: message)
+  end
+  failure_message_for_should do |obj|
+    alert_fail_message(obj, message, 'success', false)
+  end
+
+  failure_message_for_should_not do |obj|
+    alert_fail_message(obj, message, 'success', true)
   end
 end
 
@@ -44,4 +58,20 @@ RSpec::Matchers.define :have_notice_message do |message|
   match do |page|
     page.should have_selector('div.alert.alert-notice', text: message)
   end
+  failure_message_for_should do |obj|
+    alert_fail_message(obj, message, 'notice', false)
+  end
+
+  failure_message_for_should_not do |obj|
+    alert_fail_message(obj, message, 'notice', true)
+  end
+end
+
+def alert_fail_message(page, message, type, yes_not)
+  if page.has_selector?(".alert.alert-#{type}")
+    alert_div = page.find(".alert.alert-#{type}")
+    "Should#{' not' if yes_not} have #{type} message [#{message}] in  [#{alert_div.text}]"
+  else
+    "Should#{' not' if yes_not} have #{type} message [#{message}], but it is empty."
+  end  
 end
