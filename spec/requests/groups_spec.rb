@@ -150,6 +150,63 @@ describe "Groups" do
         remove_link.click
         current_path.should eq volunteers_group_path(group.id)
         should have_success_message "#{attached_vol.full_name} removed."
+
+        find('#volunteers_table/tr[2]/td[1]').text.should eq 'No volunteers'
+        should have_selector('#volunteers_table/tr', count: 2);
+        should have_selector('#available_volunteers_table/tr', count: 3);
+      end
+
+      it "add volunteer" do
+        visit volunteers_group_path(group.id)
+
+        find('#available_volunteers_table/tr[2]/td[1]').text.should eq volunteer.full_name
+        find('#available_volunteers_table/tr[2]/td[2]').text.should eq volunteer.email
+
+        add_link = find('#available_volunteers_table/tr[2]/td[3]/a')
+        add_link.text.should eq 'add'
+        add_link.click
+        current_path.should eq volunteers_group_path(group.id)
+        should have_success_message "#{volunteer.full_name} added."
+
+        find('#available_volunteers_table/tr[2]/td[1]').text.should eq 'No volunteers'
+        should have_selector('#volunteers_table/tr', count: 3);
+        should have_selector('#available_volunteers_table/tr', count: 2);
+      end
+    end
+
+    context "export" do
+      it do
+        export_link = find('table/tr[2]/td[6]/a')  
+        export_link.text.should eq 'export'
+        export_link.click
+        current_path = export_group_path(group.id)
+        find('#volunteers').text.should include(EMAIL_ALWAYS)
+        find('#volunteers').text.should include('-------------------------')
+        find('#volunteers').text.should include(attached_vol.email)
+        find('#volunteers').text.should_not include(attached_vol.full_name)
+        find('#volunteers').text.should_not include(volunteer.email)
+      end
+    end
+    context "test email" do
+      let!(:group_with_rotation) { FactoryGirl.create(:group, rotation: true, email_body: 'test email <%=this_week%>') }
+      before { visit groups_path }
+
+      it do
+        find('table/tr[3]/td[1]').text.should eq group_with_rotation.name  
+        find('table/tr[3]/td[2]').text.should eq group_with_rotation.email  
+        find('table/tr[3]/td[3]').text.should eq group_with_rotation.rotation.to_s  
+
+        test_email_link = find('table/tr[3]/td[7]/a')
+        test_email_link.text.should eq 'test_email'
+        ActionMailer::Base.delivery_method = :test
+        test_email_link.click
+        last_email = ActionMailer::Base.deliveries.last
+        last_email.to.size.should eq 1
+        last_email.to[0].should eq user.email
+        last_email.from.size.should eq 1
+        EMAIL_FROM.should include(last_email.from[0])
+        sunday = Formatters.date(*DateHelp.get_next_sunday)
+        last_email.body.raw_source.strip.should eq "test email #{sunday}"
       end
     end
   end
