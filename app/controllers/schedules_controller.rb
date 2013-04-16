@@ -11,7 +11,7 @@ class SchedulesController < ApplicationController
     @month = params[:month]
     @day = params[:day]
 
-    @formal_date = Time.new(@year, @month, @day).strftime('%A, %B %d, %Y')
+    @formal_date = Formatters.formal_date(@year, @month, @day) 
 
     (@prev_year, @prev_month, @prev_day) = DateHelp.previous_week(@year, @month, @day)
     (@next_year, @next_month, @next_day) = DateHelp.next_week(@year, @month, @day)
