@@ -12,7 +12,7 @@
 
 <div>
   <table class="group_table" style="width:100%">
-  <th>Group</th><th>Volunteers</th><th></th>
+  <tr><th>Group</th><th>Volunteers</th><th></th></tr>
   <% @rotations.each do |r| %>
     <tr class="<%= cycle("odd", "even") %>">
       <td><%= r.name %></td>
