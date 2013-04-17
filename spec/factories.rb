@@ -48,6 +48,8 @@ FactoryGirl.define do
 
     factory :group_with_scheduled_volunteer_sunday do
       after(:create) do |group|
+        group.rotation = true
+        group.save
         vol = FactoryGirl.create(:volunteer)
         group.volunteers << vol 
         year, month, day = DateHelp.get_next_sunday
@@ -56,6 +58,8 @@ FactoryGirl.define do
     end
     factory :group_with_scheduled_volunteer_next_sunday do
       after(:create) do |group|
+        group.rotation = true
+        group.save
         vol = FactoryGirl.create(:volunteer)
         group.volunteers << vol 
         year, month, day = DateHelp.next_week(*DateHelp.get_next_sunday)
@@ -70,6 +74,8 @@ FactoryGirl.define do
         day   '02'
       end
       after(:create) do |group, evaluator|
+        group.rotation = true
+        group.save
         vol = FactoryGirl.create(:volunteer)
         group.volunteers << vol 
         Schedule.for_service_by_id(vol.id, group.id, evaluator.year, evaluator.month, evaluator.day)
