@@ -1,3 +1,4 @@
+<% provide(:title, "Change Log") %>
 <h2>Resync</h2>
 <%= form_tag resync_change_log_url, method: 'post' do %>
   <pre>Only click this after you have made all the changes to the google mailing lists!!!</pre>
@@ -9,18 +10,20 @@
 <hr/>
 <h2>Mailing List Changes</h2> 
 <i>since <%= Formatters.date_time(@last_sync) %></i>
-<% @groups.each do |g| %>
-  <% vols = g.volunteers_changed_since(@last_sync.utc) %>
-  <% if !vols.empty? %>
-    <h3><%= g.name + " <#{g.email}>" %></h3>
-    <ul>
-    <% vols.each do |v| %>
-      <li>
-        <b><%= g.current_volunteer?(v) ? 'add ' : 'remove '%></b>
-        <%= v.full_name + " <#{v.email}>"%>
-      </li>
+<div id="changes">
+  <% @groups.each do |g| %>
+    <% vols = g.volunteers_changed_since(@last_sync.utc) %>
+    <% if !vols.empty? %>
+      <h3><%= g.name + " <#{g.email}>" %></h3>
+      <ul>
+      <% vols.each do |v| %>
+        <li>
+          <b><%= g.current_volunteer?(v) ? 'add' : 'remove'%></b>
+          <%= "#{v.full_name} <#{v.email}>"%>
+        </li>
+      <% end %>
+      </ul>
+      <hr/>
     <% end %>
-    </ul>
-    <hr/>
   <% end %>
-<% end %>
+</div>
