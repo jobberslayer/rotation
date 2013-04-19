@@ -224,4 +224,22 @@ describe "Volunteers" do
       find('table/tr[2]/td[1]').text.should eq vol.full_name 
     end
   end
+  
+  describe "search without javascript" do
+    let!(:vol_aaa) { FactoryGirl.create(:volunteer, last_name: 'Aaa') }
+    let!(:vol_zzz) { FactoryGirl.create(:volunteer, last_name: 'Zzz') }
+
+    before { visit volunteers_url }
+    subject { page }
+
+    it { should have_selector('table/tr', count: 3) }
+    it { find('table/tr[2]/td[1]').text.should eq vol_aaa.full_name }
+    it { find('table/tr[3]/td[1]').text.should eq vol_zzz.full_name }
+    it "submit form"  do
+      fill_in 'search', with: 'zzz'
+      click_button 'Search'
+      should have_selector('table/tr', count: 2)
+      find('table/tr[2]/td[1]').text.should eq vol_zzz.full_name 
+    end
+  end
 end
