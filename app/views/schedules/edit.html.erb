@@ -2,6 +2,10 @@
 <h3>Edit <%= @group.name %> volunteers for <%= @formal_date %></h3>
 <div>
   <%= form_tag update_schedule_path(@year, @month, @day, @group_id), method: 'post' do %>
+    <div style="padding-bottom:10px;">
+      <%= submit_tag 'Save', class: "btn btn-large btn-primary" %>
+      <%= link_to 'Back', list_schedule_url(@year, @month, @day), class: "btn btn-large btn-primary" %>
+    </div>
     <table class="volunteer_table">
     <% @volunteers.each do |v| %>
       <tr class="<%= cycle("odd", "even") %>">  
@@ -11,8 +15,9 @@
       </tr>
     <% end %>
     </table>
-    <br/>
-    <%= submit_tag 'Save', class: "btn btn-large btn-primary" %>
-    <%= link_to 'Back', list_schedule_url(@year, @month, @day), class: "btn btn-large btn-primary" %>
+    <div style="padding-top:10px;">
+      <%= submit_tag 'Save', class: "btn btn-large btn-primary" %>
+      <%= link_to 'Back', list_schedule_url(@year, @month, @day), class: "btn btn-large btn-primary" %>
+    </div>
   <% end %>
 </div>
