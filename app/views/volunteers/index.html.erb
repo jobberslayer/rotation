@@ -6,7 +6,6 @@
       <%= form_tag volunteers_path, :method => 'get', :id => "volunteers_search" do %>
         <div class="form-horizontal">
           <%= text_field_tag :search, params[:search] %>
-          &nbsp;&nbsp;
           <%= submit_tag "Search", class: "btn btn-medium btn-primary" %>
         </div>
       <% end %>
