@@ -139,6 +139,35 @@ describe "Groups" do
         should have_no_selector('#available_volunteers_table/tr[2]/td[4]')
       end
 
+      it "search volunteers" do
+        group = FactoryGirl.create(:group_with_volunteer, num_vols: 2)
+        active_vol1 = group.volunteers.first
+        active_vol2 = group.volunteers.last
+        volunteer2 = FactoryGirl.create(:volunteer)
+        visit volunteers_group_path(group.id)
+
+        should have_selector('#volunteers_table/tr', count: 3)
+        should have_selector('#available_volunteers_table/tr', count: 4)
+
+        fill_in 'active_search', with: active_vol1.first_name
+        find('#active_volunteers_search').click_button 'Search'
+
+        find('#active_search').value.should eq active_vol1.first_name
+        should have_selector('#volunteers_table/tr', count: 2)
+        find('#volunteers_table/tr[2]/td[1]').text.should eq active_vol1.full_name
+
+        fill_in 'avail_search', with: volunteer.first_name
+        find('#avail_volunteers_search').click_button 'Search'
+
+        find('#active_search').value.should eq active_vol1.first_name
+        should have_selector('#volunteers_table/tr', count: 2)
+        find('#volunteers_table/tr[2]/td[1]').text.should eq active_vol1.full_name
+
+        find('#avail_search').value.should eq volunteer.first_name
+        should have_selector('#available_volunteers_table/tr', count: 2)
+        find('#available_volunteers_table/tr[2]/td[1]').text.should eq volunteer.full_name
+      end
+
       it "remove volunteer" do
         visit volunteers_group_path(group.id)
 
