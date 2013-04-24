@@ -40,9 +40,14 @@ FactoryGirl.define do
     sequence(:email)  { |n| "group#{n}@example.com" }
 
     factory :group_with_volunteer do
-      after(:create) do |group|
-        vol = FactoryGirl.create(:volunteer)
-        group.volunteers << vol 
+      ignore do
+        num_vols 1
+      end
+      after(:create) do |group, e|
+        (1..e.num_vols).each do |n|
+          vol = FactoryGirl.create(:volunteer)
+          group.volunteers << vol 
+        end
       end
     end
 
