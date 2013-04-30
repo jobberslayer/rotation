@@ -2,17 +2,17 @@ FactoryGirl.define do
   factory :user do
     first_name            "A."
     last_name             "User"
-    sequence(:user_name)  { |n| "user#{n}" }
-    sequence(:email)      { |n| "user#{n}@example.com" }
+    sequence(:user_name)  { |n| "user#{zero_fill(n)}" }
+    sequence(:email)      { |n| "user#{zero_fill(n)}@example.com" }
     password              "foobar"
     #incase we pass in custom password
     password_confirmation { |u| u.password }
   end
 
   factory :volunteer do
-    sequence(:first_name)  { |n| "fname#{n}" }
-    sequence(:last_name)   { |n| "lname#{n}" }
-    sequence(:email)       { |n| "volunteer#{n}@example.com" }
+    sequence(:first_name)  { |n| "fname#{zero_fill(n)}" }
+    sequence(:last_name)   { |n| "lname#{zero_fill(n)}" }
+    sequence(:email)       { |n| "volunteer#{zero_fill(n)}@example.com" }
 
     ignore do
       year '2000'
@@ -36,8 +36,8 @@ FactoryGirl.define do
   end
 
   factory :group do
-    sequence(:name)   { |n| "Group #{n}" } 
-    sequence(:email)  { |n| "group#{n}@example.com" }
+    sequence(:name)   { |n| "Group #{zero_fill(n)}" } 
+    sequence(:email)  { |n| "group#{zero_fill(n)}@example.com" }
 
     factory :group_with_volunteer do
       ignore do
@@ -88,5 +88,7 @@ FactoryGirl.define do
     end
 
   end
-
+end
+def zero_fill(number)
+  return sprintf '%04d', number
 end
