@@ -175,18 +175,16 @@ describe "Groups" do
         volunteer2 = FactoryGirl.create(:volunteer)
         visit volunteers_group_path(group.id)
 
-        #should have_selector('#volunteers_table/tbody/tr', count: 3)
-        #should have_selector('#available_volunteers_table/tbody/tr', count: 4)
+        should have_selector('#volunteers_table/tbody/tr', count: 3)
+        should have_selector('#available_volunteers_table/tbody/tr', count: 4)
 
         fill_in 'active_search', with: active_vol1.email
-        #find('#active_volunteers_search').click_button 'Search'
 
         find('#active_search').value.should eq active_vol1.email
         should have_selector('#volunteers_table/tbody/tr', count: 2)
         find('#volunteers_table/tbody/tr[2]/td[1]').text.should eq active_vol1.full_name 
 
         fill_in 'avail_search', with: volunteer.email
-        #find('#avail_volunteers_search').click_button 'Search'
 
         find('#active_search').value.should eq active_vol1.email
         should have_selector('#volunteers_table/tbody/tr', count: 2)
