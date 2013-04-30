@@ -1,9 +1,19 @@
+# What email addressto use when testing is turned on in this config file.
 EMAIL_TEST_ADDRESS = 'kevin@e-kevin.com'
+
+# Email address that rotation emails are from. Must be on every email list.
 EMAIL_FROM = 'Franklin Street Church <mailing.list.admin@franklinstreetchurch.org>'
+
+# Email addresses for all admins. They will receive changes made emails.
 EMAIL_ADMINS = Rails.env == 'production' ?  'Kevin Lester <kevin@e-kevin.com>, Ben Boyett<benjamin.boyett@gmail.com>' : 'Kevin Lester <kevin@e-kevin.com>'
+
+# test mode is on
 EMAIL_TEST_ON = Rails.env == 'production' ? false : true
+
+# These address are added to the group export so that these address are added to all lists.
 EMAIL_ALWAYS = "#{EMAIL_FROM},\n#{EMAIL_TEST_ADDRESS}"
 
+# setting up action_mailer.  Assuming we will be using a gmail account to send emails
 Rotation::Application.configure do
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
