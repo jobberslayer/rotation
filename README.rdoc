@@ -20,3 +20,11 @@ should be cron'ed.
 8. rails server
 9. goto http://localhost:3000 and login with newly created user
 
+== Cron
+Set up something similar in your crontab to handle email sending. This example uses a global setup
+of rvm 
+
+# @8am on Fridays send out all reminder emails for groups
+0 8  *   *   5  cd /home/rails/rotation;/usr/local/rvm/bin/rake-ruby-1.9.2-p320 email:send:groups RAILS_ENV='production'
+# @ the top of every hour send out an email to admins if changes have been made to mailing lists.
+0 *  *   *   *     cd /home/rails/rotation;/usr/local/rvm/bin/rake-ruby-1.9.2-p320 email:send:changes RAILS_ENV='production'
