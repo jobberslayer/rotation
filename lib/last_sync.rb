@@ -14,6 +14,12 @@ module LastSync
   end
 
   def self.set
+    dir = File.dirname("#{Rails.root}/tmp")
+
+    unless File.directory?(dir)
+      FileUtils.mkdir_p(dir)
+    end
+    
     File.open(LAST_SYNC_FILE, "w+") do |f|
       f.write(DateTime.now)
     end
