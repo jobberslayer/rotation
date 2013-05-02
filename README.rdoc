@@ -7,18 +7,20 @@ that serves on Sunday mornings.  Rake tasks exist to send out weekly
 reminder emails to these groups about who is serving.  These rake tasks
 should be cron'ed.
 
+== Prerequisites
+Tested using ruby 1.9.2.  Nodejs also needs to be installed.
 
 == Getting Started
-
-1. git clone git@github.com:jobberslayer/rotation.git
-2. cp config/initializers/rotation_email_setup.rb.tmpl config/initializers/rotation_email_setup.rb
-3. configure rotation_email_setup.rb
-4. bundle install
-5. rake db:migrate
-6. rake db:test:prepare
-7. rake db:setup:user
-8. rails server
-9. goto http://localhost:3000 and login with newly created user
+ 1. git clone git@github.com:jobberslayer/rotation.git
+ 2. cp config/initializers/rotation_email_setup.rb.tmpl config/initializers/rotation_email_setup.rb
+ 3. configure rotation_email_setup.rb
+ 4. bundle install
+ 5. rake db:migrate
+ 6. rake db:test:prepare
+ 7. rake db:setup:user
+ 8. rspec spec
+ 9. rails server
+10. goto http://localhost:3000 and login with newly created user
 
 == Cron
 Set up something similar in your crontab to handle email sending. This example uses a global setup
