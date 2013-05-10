@@ -14,7 +14,7 @@ module LastSync
   end
 
   def self.set
-    dir = File.dirname("#{Rails.root}/tmp")
+    dir = File.join(Rails.root, "tmp")
 
     unless File.directory?(dir)
       FileUtils.mkdir_p(dir)
