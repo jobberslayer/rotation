@@ -16,7 +16,7 @@ gem 'highline'
 
 group :development, :test do
   gem 'rspec-rails', '2.11.0'
-  gem 'rb-readline'
+  gem 'rb-readline', '~> 0.4.2'
 end
 
 group :test do
