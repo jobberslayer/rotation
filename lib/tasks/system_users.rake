@@ -46,6 +46,18 @@ namespace :db do
         puts user.errors.full_messages
       end
     end
+		desc "Reset user password"
+    task :reset => :environment do
+      ui = HighLine.new
+      username = ui.ask("User name:")
+      password  = ui.ask("Enter password: ") { |q| q.echo = false }
+      confirm   = ui.ask("Confirm password: ") { |q| q.echo = false }
+      
+      user = User.find_by_user_name(username)
+      user.password = password
+      user.password_confirmation = confirm
+      user.save
+		end
 
   end
 end
