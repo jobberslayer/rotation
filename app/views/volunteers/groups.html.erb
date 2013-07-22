@@ -1,6 +1,6 @@
 <% provide(:title, "Volunteer Groups") %>
 <h1><%= @volunteer.full_name %> &lt;<%= @volunteer.email %>&gt;</h1>
-<div class="pull-left" style="width:45%;padding:5px;">
+<div id="current_groups" class="pull-left" style="width:45%;padding:5px;">
 <h3>Current Groups</h3>
   <table class="group_table">
     <tr>
@@ -15,7 +15,7 @@
     <% end %>
   </table>
 </div>
-<div class="pull-right" style="width:45%">
+<div id="available_groups" class="pull-right" style="width:45%">
   <h3>Available Groups</h3>
   <table class="group_table">
     <tr>

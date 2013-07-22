@@ -10,6 +10,10 @@ class Formatters
     "#{year}-#{month}-#{day}"
   end
 
+  def self.formal_date(year, month, day)
+    Time.new(year, month, day).strftime('%A, %B %d, %Y')
+  end
+
   def self.date_time(dt)
     dt.strftime("%a, %b %d, %Y %I:%M:%S %p")
   end

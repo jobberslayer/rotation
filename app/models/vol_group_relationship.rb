@@ -8,13 +8,4 @@ class VolGroupRelationship < ActiveRecord::Base
 
   scope :active, where('disabled != ?', true)
 
-  def scheduled?(year, month, day)
-    vgr = VolGroupRelationship.
-        joins(:schedules).
-        where(id: self.id).
-        where("schedules.when" => 
-            Date.new(year.to_i, month.to_i, day.to_i).strftime('%Y-%m-%d')) 
-    !vgr.empty?
-  end
-
 end

@@ -35,8 +35,17 @@ class Group < ActiveRecord::Base
     end
   end
 
+  def bench!(vol)
+    relationship = VolGroupRelationship.find_by_volunteer_id_and_group_id(
+      vol.id, 
+      self.id
+    )
+    relationship.disabled = true
+    relationship.save
+  end
+
   def signed_up?(vol)
-    vol_group_relationships.find_by_volunteer_id(vol.id)
+    !vol_group_relationships.find_by_volunteer_id(vol.id).disabled?
   end
 
   def disable
@@ -62,10 +71,6 @@ class Group < ActiveRecord::Base
   def scheduled_volunteers(year, month, day)
     Volunteer.scheduled_for(self.id, year, month, day)
   end
-
-  #def non_volunteers
-    #Volunteer.available - self.volunteers.where('vol_group_relationships.disabled != ?', true)
-  #end
 
   def clear_schedule(year, month, day)
     vgrs = VolGroupRelationship.joins(:schedules).where("vol_group_relationships.group_id" => self.id).where("schedules.when" => Date.new(year.to_i, month.to_i, day.to_i).strftime('%Y-%m-%d'))

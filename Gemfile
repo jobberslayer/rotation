@@ -16,6 +16,7 @@ gem 'highline'
 
 group :development, :test do
   gem 'rspec-rails', '2.11.0'
+  gem 'rb-readline', '~> 0.4.2'
 end
 
 group :test do
@@ -23,6 +24,9 @@ group :test do
   gem 'factory_girl_rails'
   gem 'launchy'
   gem 'faker', '1.0.1'
+  gem 'guard-rspec'
+  gem 'database_cleaner'
+  gem 'debugger'
 end
 
 

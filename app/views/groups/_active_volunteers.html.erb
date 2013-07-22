@@ -6,10 +6,13 @@ $(function() {
   });
 })
 </script>
-<table class="group_table">
+<table id="volunteers_table" class="volunteer_table">
   <tr>
     <th>Name</th><th>Email</th><th></th>
   </tr>
+  <% if @volunteers.empty? %>
+    <tr><td colspan="3">No volunteers</td></tr>
+  <% end %>
   <% @volunteers.each do |v| %>
     <tr class="<%= cycle("odd", "even") %>">
       <td><%= v.full_name %></td>

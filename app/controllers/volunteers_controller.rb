@@ -14,6 +14,7 @@ class VolunteersController < ApplicationController
       flash.now[:success] = "Volunteer #{@vol.full_name} created."
       @volunteer = Volunteer.new()
     else
+      flash.now[:error] = "See errors below."
       @volunteer = @vol
     end
 
@@ -56,12 +57,11 @@ class VolunteersController < ApplicationController
   end
 
   def leave_group
-    relationship = VolGroupRelationship.find_by_volunteer_id_and_group_id(
-      params[:volunteer_id], 
-      params[:group_id]
-    )
-    relationship.disabled = true
-    relationship.save
+    group = Group.find(params[:group_id])
+    vol = Volunteer.find(params[:volunteer_id])
+
+    vol.leave!(group)
+    flash[:success] = "#{vol.full_name} removed from #{group.name}."
     redirect_to groups_volunteer_url(params[:volunteer_id])
   end
 
@@ -69,6 +69,7 @@ class VolunteersController < ApplicationController
     vol = Volunteer.find(params[:volunteer_id])
     group = Group.find(params[:group_id])
     vol.join!(group)    
+    flash[:success] = "#{vol.full_name} added to #{group.name}."
     redirect_to groups_volunteer_url(vol.id)
   end
 

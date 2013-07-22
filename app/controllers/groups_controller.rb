@@ -14,6 +14,7 @@ class GroupsController < ApplicationController
       flash.now[:success] = "Group #{@g.name} created."
       @group = Group.new()
     else
+      flash.now[:error] = "See errors below."
       @group = @g
     end
 
@@ -56,12 +57,11 @@ class GroupsController < ApplicationController
   end
 
   def remove_volunteer
-    relationship = VolGroupRelationship.find_by_volunteer_id_and_group_id(
-      params[:volunteer_id], 
-      params[:group_id]
-    )
-    relationship.disabled = true
-    relationship.save
+    vol = Volunteer.find(params[:volunteer_id])
+    group = Group.find(params[:group_id])
+    group.bench!(vol)
+    flash[:success] = "#{vol.full_name} removed."
+
     redirect_to volunteers_group_url(params[:group_id])
   end
 
@@ -69,6 +69,7 @@ class GroupsController < ApplicationController
     vol = Volunteer.find(params[:volunteer_id])
     group = Group.find(params[:group_id])
     vol.join!(group)    
+    flash[:success] = "#{vol.full_name} added."
     redirect_to volunteers_group_url(group.id)
   end
 

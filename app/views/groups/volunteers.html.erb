@@ -3,7 +3,10 @@
 <div class="pull-left" style="width:45%;padding:5px;">
   <h3>Current Volunteers</h3>
   <%= form_tag volunteers_group_path(@group), :method => 'get', :id => "active_volunteers_search" do %>
-    <%= text_field_tag :active_search, params[:active_search] %>
+      <div class="form-horizontal">
+        <%= text_field_tag :active_search, params[:active_search] %>
+        <%= submit_tag "Search", class: "btn btn-medium btn-primary" %>
+      </div>
     <%= hidden_field_tag :avail_search, params[:avail_search], id: "active_avail_search" %>
   <% end %>
   <div id="active_volunteers"><%= render 'active_volunteers' %></div>
@@ -11,7 +14,10 @@
 <div class="pull-right" style="width:45%">
   <h3>Available Volunteers</h3>
   <%= form_tag volunteers_group_path(@group), :method => 'get', :id => "avail_volunteers_search" do %>
-    <%= text_field_tag :avail_search, params[:avail_search] %><br>
+    <div class="form-horizontal">
+      <%= text_field_tag :avail_search, params[:avail_search] %>
+      <%= submit_tag "Search", class: "btn btn-medium btn-primary" %>
+    </div>
     <%= hidden_field_tag :active_search, params[:active_search], id: "avail_active_search" %>
   <% end %>
   <div id="avail_volunteers"><%= render 'avail_volunteers' %></div>
