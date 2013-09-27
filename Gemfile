@@ -25,7 +25,7 @@ group :test do
   gem 'launchy'
   gem 'faker', '1.0.1'
   gem 'guard-rspec'
-  gem 'database_cleaner'
+  gem 'database_cleaner', '1.0.1'
   gem 'debugger'
 end
 
