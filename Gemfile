@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.11'
+gem 'rails', '3.2.15'
 gem 'bootstrap-sass', '2.1'
 gem 'bcrypt-ruby', '3.0.1'
 gem 'will_paginate', '3.0.5' 
@@ -23,7 +23,6 @@ group :test do
   gem 'faker', '1.0.1'
   gem 'guard-rspec', '2.5.4'
   gem 'database_cleaner', '1.0.1'
-  gem 'debugger', '1.6.2'
 end
 
 
